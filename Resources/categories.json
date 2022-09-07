@@ -1,0 +1,48 @@
+{
+  "name": "Root",
+  "tag": "root",
+  "subcategories": [
+    {
+      "name": "Alcohol",
+      "tag": "alcohol",
+      "subcategories": [
+        {
+          "name": "Wine",
+          "tag": "wine",
+          "subcategories": []
+        },
+        {
+          "name": "Beer",
+          "tag": "beer",
+          "subcategories": []
+        },
+        {
+          "name": "Liquor",
+          "tag": "liquor",
+          "subcategories": []
+        }
+      ]
+    },
+    {
+      "name": "Food",
+      "tag": "food",
+      "subcategories": [
+        {
+          "name": "Drinks",
+          "tag": "drinks",
+          "subcategories": []
+        },
+        {
+          "name": "Snacks",
+          "tag": "snacks",
+          "subcategories": []
+        },
+        {
+          "name": "Desserts",
+          "tag": "desserts",
+          "subcategories": []
+        }
+      ]
+    }
+  ]
+}
