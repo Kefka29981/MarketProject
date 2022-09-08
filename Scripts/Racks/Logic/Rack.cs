@@ -28,14 +28,15 @@ public class Rack
     //methods
     public Rack(float width, float height, float depth, float x, float y)
     {
+        this.id = 0;
         this.width = width;
         this.height = height;
         this.depth = depth;
         this.x = x;
         this.y = y;
+        this.leftestPoint = 0;
         this.products = new List<Product>();
     }
-
 
     [JsonConstructor]
     public Rack(Rack rack)
@@ -217,6 +218,5 @@ public class Rack
         //create file and write json string to it
         System.IO.File.WriteAllText(@"Assets\Scripts\Rack\JSON\rack.json", json);
     }
-    
 
 }

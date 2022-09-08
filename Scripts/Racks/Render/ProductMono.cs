@@ -29,11 +29,9 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
         string size = "Size: " + product.width + " X, " + product.height + " Y, " + product.depth + " Z";
         string amount = "Amount: " + product.amount[Axis.X] + " X, " + product.amount[Axis.Y] + " Y, " + product.amount[Axis.Z] + " Z";
         string rotation = "Rotation: " + product.rotation.rotations[Axis.X] + " X, " + product.rotation.rotations[Axis.Y] + " Y, " + product.rotation.rotations[Axis.Z] + " Z";
-        string id = "Product id: " + product.productData.id;
-        int index = rack.rackData.products.IndexOf(product) + 1;
-        string indexString = "Product index: " + index;
 
-        text.text = size + "\n" + amount + "\n" + rotation + "\n" + id + "\n" + indexString;
+
+        text.text = size + "\n" + amount + "\n" + rotation;
     }
 
     //ISelectable methods
@@ -48,11 +46,6 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
 
         //make text visible
         text.gameObject.SetActive(true);
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        Select();
     }
 
 

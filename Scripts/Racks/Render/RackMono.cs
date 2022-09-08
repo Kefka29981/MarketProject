@@ -89,7 +89,7 @@ public class RackMono : MonoBehaviour, IRender
     void Start()
     {
         //create new rack
-        rackData = new Rack(500, 150, 100,0,0);
+        rackData = new Rack(500, 150, 100, 100, 100);
 
         //create products data
         ProductData productData1 = new ProductData(1, 50, 50, 25);

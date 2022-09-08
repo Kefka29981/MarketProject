@@ -33,6 +33,8 @@ public class ProductEditorMenu : MenuScript
 
             activeProduct = product;
 
+            rackMono = productBody.rack;
+
             //update text
             textHolder.UpdateText();
 

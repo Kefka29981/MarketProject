@@ -20,20 +20,24 @@ public class DragDropProduct : MonoBehaviour, IDragDrop
 
     public RackMono rack;
 
-    public ShelvingMono shelving;
-
     public bool IsDragging = false;
+
+    //on pointer down
+    public void PointerDown()
+    {
+        //set product as ghost
+        product.product.isGhost = true;
+    }
 
     //coroutine to wait one second
     IEnumerator Timer()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         //trigger alarm
         TimerAlarm();
         //restart timer
         StartCoroutine(Timer());
     }
-
 
     public void DragStart()
     {
@@ -65,23 +69,24 @@ public class DragDropProduct : MonoBehaviour, IDragDrop
         
         //render rack
         rack.Render();
+
+        //render old rack (reference in product)
+        product.rack.Render();
     }
 
     private void TimerAlarm()
     {
-        //check if rack not null
+        //TODO: check if product belongs to certain rack
         if (rack == null)
         {
-            //get rack
+            //assign rack
             rack = product.rack;
         }
 
+        //check rack
+        CheckRack();
 
         int x_coor = (int)product.transform.localPosition.x;
-        int y_coor = (int)product.transform.localPosition.y;
-        
-        
-        
         int index = ClosestIndex(rack, x_coor);
         //if closest index not equal to current ghost index on rack
         if (rack.rackData.products.IndexOf(product.product) != index)
@@ -117,57 +122,36 @@ public class DragDropProduct : MonoBehaviour, IDragDrop
         return closestIndex;
     }
 
-    //on pointer down
-    public void PointerDown()
+    //check if new rack should be applied
+    public void CheckRack()
     {
-        //set product as ghost
-        product.product.isGhost = true;
-    }
-
-    //find closest rack using y coordinate
-    public RackMono ClosestRack(List<RackMono> racks, int y_coordinate)
-    {
-        RackMono closestRack = null;
-        int closestDistance = int.MaxValue;
-
-        foreach (RackMono rack in racks)
+        //check if mouse is over rack
+        RackMono newRack = Mouse.IsOverObject<RackMono>();
+        
+        //if mouse is over rack
+        if (newRack != null)
         {
-            int distance = (int)Mathf.Abs(rack.rackData.y - y_coordinate);
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestRack = rack;
-            }
+            //say hello
+            Debug.Log("Hello");
         }
 
-        return closestRack;
-    }
-
-    //if closest rack is not current rack
-    public void RackChanged(Rack newRack)
-    {
-        //remove product from current rack
-        rack.rackData.products.Remove(product.product);
-
-        //add product to new rack
-        newRack.AddProduct(product.product);
-
-        //render old rack
-        rack.Render();
-    }
-
-    /*public void RuckCheck()
-    {
-        //get closest rack
-        RackMono closestRack = ClosestRack(shell.racks, (int)product.transform.localPosition.y);
-
-        //if closest rack is not current rack
-        if (closestRack != rack)
+        //if not null and not equal to current rack
+        if (newRack != null && newRack != rack)
         {
-            //change rack
-            RackChanged(closestRack.rackData);
+            
+            //add product to new rack
+            newRack.rackData.AddProduct(product.product);
+
+            //remove product from current rack
+            rack.rackData.products.Remove(product.product);
+            
+            //render old rack
+            rack.Render();
+
+            //set new rack
+            rack = newRack;
         }
-    }*/
+    }
+
+    
 }
-
-//123
