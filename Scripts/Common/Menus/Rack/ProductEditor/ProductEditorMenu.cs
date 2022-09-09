@@ -46,7 +46,7 @@ public class ProductEditorMenu : MenuScript
         //string to axis
         Axis axisEnum = AxisExtensions.ToAxis(axis);
 
-        string backup = rackMono.rackData.CreateBackup();
+        
 
         int NumberOfProducts = rackMono.rackData.products.Count;
 
@@ -57,7 +57,6 @@ public class ProductEditorMenu : MenuScript
         //if the number of products not the same as before, load the backup
         if (NumberOfProducts != rackMono.rackData.products.Count)
         {
-            rackMono.rackData.LoadBackup(backup);
         }
 
         textHolder.UpdateText();
@@ -71,7 +70,7 @@ public class ProductEditorMenu : MenuScript
         //string to axis
         Axis axisEnum = AxisExtensions.ToAxis(axis);
 
-        string backup = rackMono.rackData.CreateBackup();
+        
 
         int NumberOfProducts = rackMono.rackData.products.Count;
 
@@ -82,7 +81,6 @@ public class ProductEditorMenu : MenuScript
         //if the number of products not the same as before, load the backup
         if (NumberOfProducts != rackMono.rackData.products.Count)
         {
-            rackMono.rackData.LoadBackup(backup);
         }
 
         textHolder.UpdateText();
@@ -94,7 +92,7 @@ public class ProductEditorMenu : MenuScript
     public void RotateActiveProductXY()
     {
         
-        string backup = rackMono.rackData.CreateBackup();
+        
 
         int NumberOfProducts = rackMono.rackData.products.Count;
 
@@ -105,7 +103,6 @@ public class ProductEditorMenu : MenuScript
         //if the number of products not the same as before, load the backup
         if (NumberOfProducts != rackMono.rackData.products.Count)
         {
-            rackMono.rackData.LoadBackup(backup);
         }
 
         textHolder.UpdateText();
@@ -116,7 +113,7 @@ public class ProductEditorMenu : MenuScript
     //rotate active product YZ by 90 degrees
     public void RotateActiveProductYZ()
     {
-        string backup = rackMono.rackData.CreateBackup();
+        
 
         int NumberOfProducts = rackMono.rackData.products.Count;
 
@@ -127,7 +124,6 @@ public class ProductEditorMenu : MenuScript
         //if the number of products not the same as before, load the backup
         if (NumberOfProducts != rackMono.rackData.products.Count)
         {
-            rackMono.rackData.LoadBackup(backup);
         }
 
         textHolder.UpdateText();

@@ -37,8 +37,8 @@ public class Rack
         this.leftestPoint = 0;
         this.products = new List<Product>();
     }
-
-    [JsonConstructor]
+    
+    
     public Rack(Rack rack)
     {
         this.id = rack.id;
@@ -81,7 +81,9 @@ public class Rack
             //update z amount of product (check how many times it can be stacked in depth)
             //product.amount[Axis.Z] = (int)(depth / product.depth);
         }
-        
+
+        product.rack = this;
+
     }
 
     public void RemoveProduct(Product product)
@@ -119,7 +121,9 @@ public class Rack
         }
 
         return result;
-    }
+    }    
+    
+
 
     //recreate rack with new list
     public void RecreateRack(List<Product> new_products)
@@ -199,43 +203,8 @@ public class Rack
     }
     
     //create backup of rack as json string
-    public string CreateBackup()
-    {
-        //create json string
-        string json = JsonUtility.ToJson(this);
-
-        return json;
-    }
 
     //load backup from json string
-    public void LoadBackup(string json)
-    {
-        //load json string
-        Rack rack = JsonUtility.FromJson<Rack>(json);
-
-        //copy rack to this
-        this.id = rack.id;
-        this.width = rack.width;
-        this.height = rack.height;
-        this.depth = rack.depth;
-        this.x = rack.x;
-        this.y = rack.y;
-        this.leftestPoint = rack.leftestPoint;
-        this.products = new List<Product>();
-        foreach (Product product in rack.products)
-        {
-            this.AddProduct(product);
-        }
-    }
 
     //save as JSON
-    public void SaveAsJSON()
-    {
-        //create json string
-        string json = JsonConvert.SerializeObject(this);
-
-        //create file and write json string to it
-        System.IO.File.WriteAllText(@"Assets\Scripts\Rack\JSON\rack.json", json);
-    }
-
 }
