@@ -119,5 +119,11 @@ public class RackMono : MonoBehaviour, IRender
         Render();
     }
 
+    //get on top in sibling hierarchy
+    public void SetAsMain()
+    {
+        transform.SetAsLastSibling();
+    }
+
 
 }

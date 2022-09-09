@@ -80,6 +80,12 @@ public enum MenuID
 
 public static class MenuHandler
 {
+    //menu controller
+    public static MenuController menuController;
+
+    //default ID
+    public static MenuID defaultID = MenuID.ProductList;
+
     //selected product
     private static ISelectable selectedObj;
 

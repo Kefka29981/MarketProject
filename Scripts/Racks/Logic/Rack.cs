@@ -179,6 +179,25 @@ public class Rack
         }
     }        
 
+    //recreate without ghosts
+    public void RecreateWithoutGhosts()
+    {
+        //create new list
+        List<Product> new_products = new List<Product>();
+
+        //add only products without ghosts
+        foreach (Product product in products)
+        {
+            if (!product.isGhost)
+            {
+                new_products.Add(product);
+            }
+        }
+
+        //recreate rack
+        RecreateRack(new_products);
+    }
+    
     //create backup of rack as json string
     public string CreateBackup()
     {
