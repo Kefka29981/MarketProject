@@ -12,6 +12,9 @@ public interface ISelectable: IPointerDownHandler
     {
         //get menu controller
         MenuController menuController = MenuHandler.menuController;
+
+        //debug type of this
+        Debug.Log("Selected: " + GetType());
         //set product as selected product
         menuController.SetCurrentMenu(menuID, this);
 

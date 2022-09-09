@@ -7,6 +7,8 @@ public class Product
     //fields
     public ProductData productData;
 
+    public Rack rack;
+
     //is ghost?
     public bool isGhost;
 
@@ -47,18 +49,40 @@ public class Product
         this.isGhost = isGhost;
     }
 
+    //product copy constructor
+    public Product(Product product)
+    {
+        this.productData = product.productData;
+        this.width = product.width;
+        this.height = product.height;
+        this.depth = product.depth;
+        this.x = product.x;
+        this.y = product.y;
+        this.rotation = product.rotation;
+        this.amount = new Dictionary<Axis, int>(product.amount);
+        this.totalAmount = product.totalAmount;
+        this.isGhost = product.isGhost;
+        this.rack = product.rack;
+    }
+
 
     //find actual parameters of product (width, height, depth)
     public void SetActualParameters()
     {
+
         //find size of product
         width = productData.base_width * amount[Axis.X];
         height = productData.base_height * amount[Axis.Y];
         depth = productData.base_depth * amount[Axis.Z];
 
-        //rotate product
-        rotation.ApplyRotation(this);
-    }
+
+            rotation.ApplyRotation(this);
+
+
+            Debug.Log("Product is too big for rack");
+
+
+        }
 
     //increment amount of product
     public void IncrementAmount(Axis axis, int amount)
@@ -66,14 +90,29 @@ public class Product
         //find actual axis from rotation
         Axis actualAxis = rotation.GetActualAxis(axis);
 
-        //increment amount
-        this.amount[actualAxis] += amount;
+        Product newProduct = new Product(this);
+        newProduct.amount[actualAxis] += amount;
+        newProduct.totalAmount = newProduct.amount[Axis.Z] * newProduct.amount[Axis.X] * newProduct.amount[Axis.Y];
+        newProduct.width = productData.base_width * newProduct.amount[Axis.X];
+        newProduct.height = productData.base_height * newProduct.amount[Axis.Y];
+        newProduct.depth = productData.base_depth * newProduct.amount[Axis.Z];
+        if (newProduct.width < rack.width && newProduct.height < rack.height && newProduct.depth < rack.depth)
+        {
+            //increment amount
+            this.amount[actualAxis] += amount;
 
-        //update total amount
-        this.totalAmount = this.amount[Axis.Z] * this.amount[Axis.X] * this.amount[Axis.Y];
+            //update total amount
+            this.totalAmount = this.amount[Axis.Z] * this.amount[Axis.X] * this.amount[Axis.Y];
 
-        //set actual parameters
-        SetActualParameters();
+            //set actual parameters
+            SetActualParameters();
+        }
+        else
+        {
+            Debug.Log("Product is too big for rack");
+        }
+
+
     }
      
 }
@@ -152,6 +191,7 @@ public class Rotation
         product.height = temp_height;
         product.depth = temp_depth;
     }
+
 
     //get actual axis from axis
     public Axis GetActualAxis(Axis axis)

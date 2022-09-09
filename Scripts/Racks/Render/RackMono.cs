@@ -106,14 +106,16 @@ public class RackMono : MonoBehaviour, IRender
         //apply rotation to product2
         product2.rotation.ApplyRotation(product2);
 
-        //increment product 2 width
-        product2.IncrementAmount(Axis.X, 2);
-        
-
         //add products to rack
         rackData.AddProduct(product1);
         rackData.AddProduct(product2);
         rackData.AddProduct(product3);
+
+        //increment product 2 width
+        product2.IncrementAmount(Axis.X, 2);
+        
+
+
 
         //render rack
         Render();

@@ -44,7 +44,7 @@ public class MenuController : MonoBehaviour
     }
 
     //set current menu with data
-    public void SetCurrentMenu(MenuID id, object data)
+    public void SetCurrentMenu(MenuID id, ISelectable data)
     {
         currentMenu = id;
         ShowMenu();
@@ -113,5 +113,11 @@ public static class MenuHandler
         {
             selectedObj.Unselect();
         }
+    }
+
+    static MenuHandler()
+    {
+        //get menu controller
+        menuController = GameObject.Find("MenuController").GetComponent<MenuController>();
     }
 }
