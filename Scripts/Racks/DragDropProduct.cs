@@ -49,6 +49,9 @@ public class DragDropProduct : MonoBehaviour, IDragDrop
         //set product as ghost
         product.product.isGhost = true;
 
+        //set rack as main
+        rack.SetAsMain();
+
         //render rack
         rack.Render();
 
@@ -144,6 +147,9 @@ public class DragDropProduct : MonoBehaviour, IDragDrop
 
             //remove product from current rack
             rack.rackData.products.Remove(product.product);
+
+            //recreate old rack without ghosts
+            rack.rackData.RecreateWithoutGhosts();
             
             //render old rack
             rack.Render();

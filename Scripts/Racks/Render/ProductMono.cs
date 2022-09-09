@@ -20,7 +20,7 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
 
     public void Clear()
     {
-        throw new System.NotImplementedException();
+        //nothing for now
     }
 
     public void Render()
@@ -34,22 +34,17 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
         text.text = size + "\n" + amount + "\n" + rotation;
     }
 
-    //ISelectable methods
-    public void Select()
-    {
-        //find menu controller game object
-        GameObject menuControllerObject = GameObject.Find("MenuController");
-        //get menu controller script
-        MenuController menuController = menuControllerObject.GetComponent<MenuController>();
-        //set product as selected product
-        menuController.SetCurrentMenu(MenuID.ProductEditor, this);
+    //ISelectable methods and properties
+    public MenuID menuID { get { return MenuID.ProductEditor; } }
 
+    void ISelectable.OnSelect()
+    {
         //make text visible
         text.gameObject.SetActive(true);
     }
 
 
-    public void Unselect()
+    void ISelectable.Unselect()
     {
         //if text not null
         if (text != null)
