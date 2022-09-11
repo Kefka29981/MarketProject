@@ -25,6 +25,9 @@ public class Rack
     //products
     public List<Product> products;
 
+    //reserved products list (used to store old products when changing rack)
+    public List<Product> reservedProducts;
+
     //methods
     public Rack(float width, float height, float depth, float x, float y)
     {
@@ -37,8 +40,8 @@ public class Rack
         this.leftestPoint = 0;
         this.products = new List<Product>();
     }
-    
-    
+
+
     public Rack(Rack rack)
     {
         this.id = rack.id;
@@ -51,7 +54,9 @@ public class Rack
         this.products = new List<Product>();
         foreach (Product product in rack.products)
         {
-            this.AddProduct(product);
+            //create duplicate of product
+            Product newProduct = new Product(product);
+            this.AddProduct(newProduct);
         }
     }
 
@@ -65,10 +70,10 @@ public class Rack
 
         bool result = CanAddProduct(product);
 
-        if(result)
+        if (result)
         {
             products.Add(product);
-            
+
             //set new x and y of product
             //x equals to leftest point plus half product width
             //y equals to height minus half product height
@@ -80,9 +85,11 @@ public class Rack
 
             //update z amount of product (check how many times it can be stacked in depth)
             //product.amount[Axis.Z] = (int)(depth / product.depth);
+
+            product.rack = this;
+
         }
 
-        product.rack = this;
 
     }
 
@@ -96,8 +103,11 @@ public class Rack
 
     //check if product can be added to rack
     public bool CanAddProduct(Product product)
-    {   
+    {
         bool result = true;
+
+        //apply rotation
+        product.SetActualParameters();
 
         //get horizontal free space
         float freeSpace = this.width - this.leftestPoint;
@@ -107,7 +117,7 @@ public class Rack
         {
             result = false;
         }
-        
+
         //compare height with rack height
         if (product.height > this.height)
         {
@@ -121,8 +131,7 @@ public class Rack
         }
 
         return result;
-    }    
-    
+    }
 
 
     //recreate rack with new list
@@ -131,9 +140,12 @@ public class Rack
         //copy new_products to new list (to avoid clearing original list)
         new_products = new List<Product>(new_products);
 
+        //TODO: refactor this
+        ProductEditorMenu menu = MenuHandler.menuController.GetCurrentMenuScript() as ProductEditorMenu;
+
         //clear rack
         this.products = new List<Product>();
-        
+
         //update leftest point
         this.leftestPoint = 0;
 
@@ -151,8 +163,14 @@ public class Rack
             {
                 //print error message
                 Debug.Log("Product " + product.productData.id + " can't be added to rack");
+                //recreate with reserved products
+                RecreateRack(reservedProducts);
+                //set reserve as active
+                menu.SetReserveProductAsActive();
+                break;
             }
         }
+        
 
     }
 
@@ -161,7 +179,7 @@ public class Rack
     {
         RecreateRack(products);
     }
-    
+
     //add product on certain index
     public void AddProductOnIndex(Product product, int index)
     {
@@ -181,7 +199,7 @@ public class Rack
             //print error message
             Debug.Log("Product " + product.productData.id + " can't be added to rack");
         }
-    }        
+    }
 
     //recreate without ghosts
     public void RecreateWithoutGhosts()
@@ -201,10 +219,35 @@ public class Rack
         //recreate rack
         RecreateRack(new_products);
     }
-    
-    //create backup of rack as json string
 
-    //load backup from json string
+    //update reserved products
+    public void UpdateReservedProducts()
+    {
+        //create new list
+        reservedProducts = new List<Product>();
 
-    //save as JSON
+        //TODO: refactor this
+        //get according menu from menu handler
+        ProductEditorMenu menu = MenuHandler.menuController.GetCurrentMenuScript() as ProductEditorMenu;
+
+        //clear reserved products list
+        foreach (Product product in products)
+        {
+            //reserved product
+            Product reservedProduct = new Product(product);
+            reservedProducts.Add(reservedProduct);
+
+            //if product set as active by menu
+            if (menu.activeProduct == product)
+            {
+                //set reserved product as active
+                menu.reserveProduct = reservedProduct;
+
+                //log
+                Debug.Log("Reserved product set");
+            }
+
+        }
+
+    }
 }

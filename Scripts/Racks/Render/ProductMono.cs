@@ -36,6 +36,9 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
 
     //ISelectable methods and properties
     public MenuID menuID => MenuID.ProductEditor;
+    
+    public bool isSelected { get; set; }
+    
 
     void ISelectable.OnSelect()
     {

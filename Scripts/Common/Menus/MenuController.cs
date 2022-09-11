@@ -7,6 +7,12 @@ public class MenuController : MonoBehaviour
     //current menu
     private MenuID currentMenu;
 
+    public MenuID CurrentMenu
+    {
+        get => currentMenu;
+        set => currentMenu = value;
+    }
+
     //list of menus
     public List<MenuScript> menus;
 
@@ -55,6 +61,12 @@ public class MenuController : MonoBehaviour
         {
             menu.GetData(data);
         }
+    }
+
+    //get current menu
+    public MenuScript GetCurrentMenuScript()
+    {
+        return menus.Find(x => x.id == currentMenu);
     }
 
 

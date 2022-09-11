@@ -16,6 +16,8 @@ public class RackMono : MonoBehaviour, IRender
 
     public GameObject ghostPrefab;
 
+    public bool smol;
+
     public void Clear()
     {
         //clear all products
@@ -88,37 +90,75 @@ public class RackMono : MonoBehaviour, IRender
     //start
     void Start()
     {
-        //create new rack
-        rackData = new Rack(500, 150, 100, 100, 100);
+        if(smol){
+            //create new rack
+            rackData = new Rack(500, 150, 100, 100, 100);
 
-        //create products data
-        ProductData productData1 = new ProductData(1, 50, 50, 25);
-        ProductData productData2 = new ProductData(2, 50, 15, 25, canBePlacedOnTop: true);
-        ProductData productData3 = new ProductData(3, 90, 30, 100, canBePlacedOnTop: true);
+            //create products data
+            ProductData productData1 = new ProductData(1, 50, 50, 25);
+            ProductData productData2 = new ProductData(2, 50, 15, 25, canBePlacedOnTop: true);
+            ProductData productData3 = new ProductData(3, 90, 30, 100, canBePlacedOnTop: true);
 
-        //create new products
-        Product product1 = new Product(productData1);
-        Product product2 = new Product(productData2);
-        Product product3 = new Product(productData3);
-
-        
-        product2.rotation.RotateXY(product2);
-        //apply rotation to product2
-        product2.rotation.ApplyRotation(product2);
-
-        //add products to rack
-        rackData.AddProduct(product1);
-        rackData.AddProduct(product2);
-        rackData.AddProduct(product3);
-
-        //increment product 2 width
-        product2.IncrementAmount(Axis.X, 2);
-        
+            //create new products
+            Product product1 = new Product(productData1);
+            Product product2 = new Product(productData2);
+            Product product3 = new Product(productData3);
 
 
+            product2.rotation.RotateXY(product2);
+            //apply rotation to product2
+            product2.rotation.ApplyRotation(product2);
 
-        //render rack
-        Render();
+            //add products to rack
+            rackData.AddProduct(product1);
+            rackData.AddProduct(product2);
+            rackData.AddProduct(product3);
+
+            //increment product 2 width
+            product2.IncrementAmount(Axis.X, 2);
+
+
+            //recreate rack
+            rackData.RecreateRack();
+
+            //render rack
+            Render();
+        }
+        else
+        {
+            //create new rack
+            rackData = new Rack(500, 100, 100, 100, 100);
+
+            //create products data
+            ProductData productData1 = new ProductData(1, 50, 50, 25);
+            ProductData productData2 = new ProductData(2, 50, 15, 25, canBePlacedOnTop: true);
+            ProductData productData3 = new ProductData(3, 90, 30, 100, canBePlacedOnTop: true);
+
+            //create new products
+            Product product1 = new Product(productData1);
+            Product product2 = new Product(productData2);
+            Product product3 = new Product(productData3);
+
+
+            product2.rotation.RotateXY(product2);
+            //apply rotation to product2
+            product2.rotation.ApplyRotation(product2);
+
+            //add products to rack
+            rackData.AddProduct(product1);
+            rackData.AddProduct(product2);
+            rackData.AddProduct(product3);
+
+            //increment product 2 width
+            product2.IncrementAmount(Axis.X, 2);
+
+
+            //recreate rack
+            rackData.RecreateRack();
+
+            //render rack
+            Render();
+        }
     }
 
     //get on top in sibling hierarchy
@@ -127,5 +167,21 @@ public class RackMono : MonoBehaviour, IRender
         transform.SetAsLastSibling();
     }
 
+    //find productmono by product
+    public ProductMono FindProductMono(Product product)
+    {
+        foreach (Transform child in transform)
+        {
+            ProductMono productMono = child.GetComponent<ProductMono>();
+            if (productMono != null)
+            {
+                if (productMono.product == product)
+                {
+                    return productMono;
+                }
+            }
+        }
+        return null;
+    }
 
 }

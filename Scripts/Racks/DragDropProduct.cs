@@ -139,9 +139,9 @@ public class DragDropProduct : MonoBehaviour, IDragDrop
         }
 
         //if not null and not equal to current rack
-        if (newRack != null && newRack != rack)
+        if (newRack != null && newRack != rack && newRack.rackData.CanAddProduct(product.product))
         {
-            
+            //TODO: ddn't remove if can't add
             //add product to new rack
             newRack.rackData.AddProduct(product.product);
 
