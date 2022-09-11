@@ -13,7 +13,12 @@ public class ProductEditorMenu : MenuScript
 
     public Product activeProduct;
 
+    //reserve product to set as active
+    public Product reserveProduct;
+
     public RackMono rackMono;
+
+    public int index;
 
 
     public override void GetData(object data)
@@ -43,45 +48,38 @@ public class ProductEditorMenu : MenuScript
 
     public void IncreaseSize(string axis)
     {
+        //update reserves
+        activeProduct.rack.UpdateReservedProducts();
+        
         //string to axis
         Axis axisEnum = AxisExtensions.ToAxis(axis);
 
-        
-
-        int NumberOfProducts = rackMono.rackData.products.Count;
 
         activeProduct.IncrementAmount(axisEnum, 1);
 
         rackMono.rackData.RecreateRack();
 
-        //if the number of products not the same as before, load the backup
-        if (NumberOfProducts != rackMono.rackData.products.Count)
-        {
-        }
 
         textHolder.UpdateText();
 
         rackMono.Render();
 
+        
+
     }
 
     public void DecreaseSize(string axis)
     {
+        //update reserves
+        activeProduct.rack.UpdateReservedProducts();
+        
         //string to axis
         Axis axisEnum = AxisExtensions.ToAxis(axis);
-
-        
-
-        int NumberOfProducts = rackMono.rackData.products.Count;
 
         activeProduct.IncrementAmount(axisEnum, -1);
 
         rackMono.rackData.RecreateRack();
 
-        //if the number of products not the same as before, load the backup
-        if (NumberOfProducts != rackMono.rackData.products.Count)
-        {
-        }
 
         textHolder.UpdateText();
 
@@ -91,19 +89,15 @@ public class ProductEditorMenu : MenuScript
     //rotate active product XY by 90 degrees
     public void RotateActiveProductXY()
     {
-        
-        
 
-        int NumberOfProducts = rackMono.rackData.products.Count;
+        //update reserves
+        activeProduct.rack.UpdateReservedProducts();
+
 
         activeProduct.rotation.RotateXY(activeProduct);
 
         rackMono.rackData.RecreateRack();
 
-        //if the number of products not the same as before, load the backup
-        if (NumberOfProducts != rackMono.rackData.products.Count)
-        {
-        }
 
         textHolder.UpdateText();
 
@@ -113,21 +107,31 @@ public class ProductEditorMenu : MenuScript
     //rotate active product YZ by 90 degrees
     public void RotateActiveProductYZ()
     {
-        
+        //update reserves
+        activeProduct.rack.UpdateReservedProducts();
 
-        int NumberOfProducts = rackMono.rackData.products.Count;
 
         activeProduct.rotation.RotateYZ(activeProduct);
 
         rackMono.rackData.RecreateRack();
 
-        //if the number of products not the same as before, load the backup
-        if (NumberOfProducts != rackMono.rackData.products.Count)
-        {
-        }
 
         textHolder.UpdateText();
 
         rackMono.Render();
     }
+
+    //set reserve product as active
+    public void SetReserveProductAsActive()
+    {
+        //set active product
+        activeProduct = reserveProduct;
+
+        //update text
+        textHolder.UpdateText();
+
+        //debug log
+        Debug.Log("ProductEditorMenu: SetReserveProductAsActive: Active product set");
+    }
+
 }

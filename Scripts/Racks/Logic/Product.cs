@@ -58,7 +58,7 @@ public class Product
         this.depth = product.depth;
         this.x = product.x;
         this.y = product.y;
-        this.rotation = product.rotation;
+        this.rotation = new Rotation(product.rotation);
         this.amount = new Dictionary<Axis, int>(product.amount);
         this.totalAmount = product.totalAmount;
         this.isGhost = product.isGhost;
@@ -76,13 +76,9 @@ public class Product
         depth = productData.base_depth * amount[Axis.Z];
 
 
-            rotation.ApplyRotation(this);
+        rotation.ApplyRotation(this);
 
-
-            Debug.Log("Product is too big for rack");
-
-
-        }
+    }
 
     //increment amount of product
     public void IncrementAmount(Axis axis, int amount)
@@ -90,28 +86,15 @@ public class Product
         //find actual axis from rotation
         Axis actualAxis = rotation.GetActualAxis(axis);
 
-        Product newProduct = new Product(this);
-        newProduct.amount[actualAxis] += amount;
-        newProduct.totalAmount = newProduct.amount[Axis.Z] * newProduct.amount[Axis.X] * newProduct.amount[Axis.Y];
-        newProduct.width = productData.base_width * newProduct.amount[Axis.X];
-        newProduct.height = productData.base_height * newProduct.amount[Axis.Y];
-        newProduct.depth = productData.base_depth * newProduct.amount[Axis.Z];
-        if (newProduct.width < rack.width && newProduct.height < rack.height && newProduct.depth < rack.depth)
-        {
-            //increment amount
-            this.amount[actualAxis] += amount;
 
-            //update total amount
-            this.totalAmount = this.amount[Axis.Z] * this.amount[Axis.X] * this.amount[Axis.Y];
+        //increment amount
+        this.amount[actualAxis] += amount;
 
-            //set actual parameters
-            SetActualParameters();
-        }
-        else
-        {
-            Debug.Log("Product is too big for rack");
-        }
+        //update total amount
+        this.totalAmount = this.amount[Axis.Z] * this.amount[Axis.X] * this.amount[Axis.Y];
 
+        //set actual parameters
+        this.SetActualParameters();
 
     }
      
@@ -135,9 +118,16 @@ public class Rotation
         rotations.Add(Axis.Z, Axis.Z);
     }
 
+    //copy constructor
+    public Rotation(Rotation rotation)
+    {
+        rotations = new Dictionary<Axis, Axis>(rotation.rotations);
+    }
+
     //rotate product in XY plane
     public void RotateXY(Product product)
     {
+        
         //swap 0 and 1 indexses
         Axis temp_x = rotations[Axis.X];
 
@@ -149,6 +139,7 @@ public class Rotation
     //rotate product in XZ plane
     public void RotateYZ(Product product)
     {
+        
         //swap 0 and 2 indexses
         Axis temp_y = rotations[Axis.Y];
 
