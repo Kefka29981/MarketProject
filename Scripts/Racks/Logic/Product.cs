@@ -86,6 +86,10 @@ public class Product
         //find actual axis from rotation
         Axis actualAxis = rotation.GetActualAxis(axis);
 
+        if (this.amount[actualAxis] + amount <= 0)
+        {
+            return;
+        }
 
         //increment amount
         this.amount[actualAxis] += amount;
