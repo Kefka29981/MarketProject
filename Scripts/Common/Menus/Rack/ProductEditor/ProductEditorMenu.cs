@@ -13,7 +13,7 @@ public class ProductEditorMenu : MenuScript
 
     public Product activeProduct;
 
-    //reserve product to set as active
+    //reserve productMono to set as active
     public Product reserveProduct;
 
     public RackMono rackMono;
@@ -86,7 +86,7 @@ public class ProductEditorMenu : MenuScript
         rackMono.Render();
     }
 
-    //rotate active product XY by 90 degrees
+    //rotate active productMono XY by 90 degrees
     public void RotateActiveProductXY()
     {
 
@@ -104,7 +104,7 @@ public class ProductEditorMenu : MenuScript
         rackMono.Render();
     }
 
-    //rotate active product YZ by 90 degrees
+    //rotate active productMono YZ by 90 degrees
     public void RotateActiveProductYZ()
     {
         //update reserves
@@ -121,17 +121,17 @@ public class ProductEditorMenu : MenuScript
         rackMono.Render();
     }
 
-    //set reserve product as active
+    //set reserve productMono as active
     public void SetReserveProductAsActive()
     {
-        //set active product
+        //set active productMono
         activeProduct = reserveProduct;
 
         //update text
         textHolder.UpdateText();
 
         //debug log
-        Debug.Log("ProductEditorMenu: SetReserveProductAsActive: Active product set");
+        Debug.Log("ProductEditorMenu: SetReserveProductAsActive: Active productMono set");
     }
 
 }

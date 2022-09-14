@@ -49,7 +49,7 @@ public class Product
         this.isGhost = isGhost;
     }
 
-    //product copy constructor
+    //productMono copy constructor
     public Product(Product product)
     {
         this.productData = product.productData;
@@ -66,11 +66,11 @@ public class Product
     }
 
 
-    //find actual parameters of product (width, height, depth)
+    //find actual parameters of productMono (width, height, depth)
     public void SetActualParameters()
     {
 
-        //find size of product
+        //find size of productMono
         width = productData.base_width * amount[Axis.X];
         height = productData.base_height * amount[Axis.Y];
         depth = productData.base_depth * amount[Axis.Z];
@@ -80,12 +80,16 @@ public class Product
 
     }
 
-    //increment amount of product
+    //increment amount of productMono
     public void IncrementAmount(Axis axis, int amount)
     {
         //find actual axis from rotation
         Axis actualAxis = rotation.GetActualAxis(axis);
 
+        if (this.amount[actualAxis] + amount <= 0)
+        {
+            return;
+        }
 
         //increment amount
         this.amount[actualAxis] += amount;
@@ -124,7 +128,7 @@ public class Rotation
         rotations = new Dictionary<Axis, Axis>(rotation.rotations);
     }
 
-    //rotate product in XY plane
+    //rotate productMono in XY plane
     public void RotateXY(Product product)
     {
         
@@ -136,7 +140,7 @@ public class Rotation
         rotations[Axis.Y] = temp_x;
     }
 
-    //rotate product in XZ plane
+    //rotate productMono in XZ plane
     public void RotateYZ(Product product)
     {
         
@@ -148,7 +152,7 @@ public class Rotation
         rotations[Axis.Z] = temp_y;
     }
 
-    //Get product field by name
+    //Get productMono field by name
     public float GetField(Axis fieldName, Product product)
     {
         if (fieldName == Axis.X)
@@ -169,7 +173,7 @@ public class Rotation
         }
     }
 
-    //set product width, height and depth to actual values according to rotation
+    //set productMono width, height and depth to actual values according to rotation
     public void ApplyRotation(Product product)
     {
         //initialize temp integers

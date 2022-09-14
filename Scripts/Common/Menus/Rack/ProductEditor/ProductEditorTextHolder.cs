@@ -12,7 +12,7 @@ public class ProductEditorTextHolder : TextHolder
     //override
     public override void UpdateText()
     {
-        //get active product
+        //get active productMono
         Product product = menu.activeProduct;
 
         int amount_width = product.amount[AxisExtensions.RotationWise(product, Axis.X)];
@@ -21,7 +21,7 @@ public class ProductEditorTextHolder : TextHolder
 
         int amount_depth = product.amount[AxisExtensions.RotationWise(product, Axis.Z)];
 
-        //if product is not null
+        //if productMono is not null
         texts[0].text = amount_width.ToString();
 
         texts[1].text = amount_height.ToString();

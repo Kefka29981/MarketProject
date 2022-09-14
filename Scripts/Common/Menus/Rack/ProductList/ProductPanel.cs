@@ -6,7 +6,7 @@ using UnityEngine;
 public class ProductPanel : MonoBehaviour
 {
     //fields
-    //id of the stored product data
+    //id of the stored productMono data
     public int id;
 
     //awake

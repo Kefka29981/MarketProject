@@ -18,6 +18,8 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
 
     public TextMeshProUGUI text;
 
+    public bool isDragging = false;
+
     public void Clear()
     {
         //nothing for now

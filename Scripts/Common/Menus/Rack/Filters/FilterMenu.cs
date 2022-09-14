@@ -14,6 +14,8 @@ public class FilterMenu: MenuScript
 
     public GameObject filtersListObject;
 
+    public GameObject filterHierarchy;
+
     //public TextMeshProUGUI Text;
 
     public string[] appliedFilters;

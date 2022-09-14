@@ -20,7 +20,7 @@ public interface ISelectable: IPointerDownHandler
 
         //debug type of this
         Debug.Log("Selected: " + GetType());
-        //set product as selected product
+        //set productMono as selected productMono
         menuController.SetCurrentMenu(menuID, this);
 
         //call OnSelect
