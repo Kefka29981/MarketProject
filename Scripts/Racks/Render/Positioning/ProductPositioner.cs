@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
-//this component is attached to new product objects
+//this component is attached to new productMono objects
 //it always moves with the mouse
 
 public class ProductPositioner : MonoBehaviour
@@ -22,7 +22,7 @@ public class ProductPositioner : MonoBehaviour
     /*/rackmono (last on mouse)
     public RackMono rackMonoLastMouseOver;
 
-    //bool to check if the product is in the rack
+    //bool to check if the productMono is in the rack
     public bool onRack = false;*/
 
     //update
@@ -32,24 +32,41 @@ public class ProductPositioner : MonoBehaviour
 
         StatusCheck();
 
+        //on click
+        if (Input.GetMouseButtonDown(0))
+        {
+            //if mouse is over rack
+            if (rackMono != null)
+            {
+                //make product not ghost
+                productMono.product.isGhost = false;
+                //RENDER
+                rackMono.Render();
+                //DESTROY EVERYTHING
+                Destroy(productMono.gameObject);
+            }
+        }
     }
 
     //start
     void Start()
     {
-        //spawn new product
+        //spawn new productMono
         ProductData productData = new ProductData(10, 20, 10,10);
 
-        //create new product
+        //create new productMono
         Product product = new Product(productData);
 
-        //set as ghost
-        //product.isGhost = true;
+        
 
-        //set productMono product
+        //set productMono productMono
         productMono.product = product;
 
-        
+        //set as ghost
+        productMono.product.isGhost = true;
+
+        //isDragging = true
+        productMono.isDragging = true;
     }
 
     //void move
@@ -58,11 +75,11 @@ public class ProductPositioner : MonoBehaviour
         //get mouse position
         Vector3 mousePosition = Input.mousePosition;
 
-        //set z to 0
-        mousePosition.z = 0;
+        //set z position
+        mousePosition.z = 10;
 
-        //set position to mouse position
-        transform.position = mousePosition;
+        //set productMono position
+        transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
     }
 
     public void StatusCheck()
@@ -89,12 +106,14 @@ public class ProductPositioner : MonoBehaviour
         if (actualRack.rackData.CanAddProduct(productMono.product))
         {
             rackMono = actualRack;
-            //set rackmono as product mono parent
+            //set rackmono as productMono mono parent
             productMono.transform.SetParent(actualRack.transform);
+            //remove product from rack
+            actualRack.rackData.RemoveProduct(productMono.product);
             //find closest index
             int x_coor = (int)productMono.transform.localPosition.x;
             int index = ClosestIndex(rackMono, x_coor);
-            //add product at index
+            //add productMono at index
             actualRack.rackData.AddProductOnIndex(productMono.product, index);
 
             //render

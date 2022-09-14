@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DragDropProduct : MonoBehaviour, IDragDrop
+public class ProductDragDrop : MonoBehaviour, IDragDrop
 {
 
     //rectTransform property realization
@@ -10,23 +10,23 @@ public class DragDropProduct : MonoBehaviour, IDragDrop
     {
         get
         {
-            return product.GetComponent<RectTransform>();
+            return productMono.GetComponent<RectTransform>();
         }
     }
 
     public GhostProduct ghost;
 
-    public ProductMono product;
+    public ProductMono productMono;
 
     public RackMono rack;
 
-    public bool IsDragging = false;
+    public bool IsDragging { get => productMono.isDragging; set => productMono.isDragging = value; }
 
     //on pointer down
     public void PointerDown()
     {
-        //set product as ghost
-        product.product.isGhost = true;
+        //set productMono as ghost
+        productMono.product.isGhost = true;
     }
 
     //coroutine to wait one second
@@ -42,12 +42,12 @@ public class DragDropProduct : MonoBehaviour, IDragDrop
     public void DragStart()
     {
         //get rack
-        rack = product.rack;
+        rack = productMono.rack;
 
         IsDragging = true;
 
-        //set product as ghost
-        product.product.isGhost = true;
+        //set productMono as ghost
+        productMono.product.isGhost = true;
 
         //set rack as main
         rack.SetAsMain();
@@ -62,8 +62,8 @@ public class DragDropProduct : MonoBehaviour, IDragDrop
     //on drop
     public void DragEnd()
     {
-        //set product as not ghost
-        product.product.isGhost = false;
+        //set productMono as not ghost
+        productMono.product.isGhost = false;
         
         IsDragging = false;
 
@@ -73,32 +73,32 @@ public class DragDropProduct : MonoBehaviour, IDragDrop
         //render rack
         rack.Render();
 
-        //render old rack (reference in product)
-        product.rack.Render();
+        //render old rack (reference in productMono)
+        productMono.rack.Render();
     }
 
     private void TimerAlarm()
     {
-        //TODO: check if product belongs to certain rack
+        //TODO: check if productMono belongs to certain rack
         if (rack == null)
         {
             //assign rack
-            rack = product.rack;
+            rack = productMono.rack;
         }
 
         //check rack
         CheckRack();
 
-        int x_coor = (int)product.transform.localPosition.x;
+        int x_coor = (int)productMono.transform.localPosition.x;
         int index = ClosestIndex(rack, x_coor);
         //if closest index not equal to current ghost index on rack
-        if (rack.rackData.products.IndexOf(product.product) != index)
+        if (rack.rackData.products.IndexOf(productMono.product) != index)
         {
-            //remove product from rack
-            rack.rackData.products.Remove(product.product);
+            //remove productMono from rack
+            rack.rackData.products.Remove(productMono.product);
 
-            //add product to rack at closest index
-            rack.rackData.AddProductOnIndex(product.product, index);
+            //add productMono to rack at closest index
+            rack.rackData.AddProductOnIndex(productMono.product, index);
 
             //render rack
             rack.Render();
@@ -139,14 +139,14 @@ public class DragDropProduct : MonoBehaviour, IDragDrop
         }
 
         //if not null and not equal to current rack
-        if (newRack != null && newRack != rack && newRack.rackData.CanAddProduct(product.product))
+        if (newRack != null && newRack != rack && newRack.rackData.CanAddProduct(productMono.product))
         {
             //TODO: ddn't remove if can't add
-            //add product to new rack
-            newRack.rackData.AddProduct(product.product);
+            //add productMono to new rack
+            newRack.rackData.AddProduct(productMono.product);
 
-            //remove product from current rack
-            rack.rackData.products.Remove(product.product);
+            //remove productMono from current rack
+            rack.rackData.products.Remove(productMono.product);
 
             //recreate old rack without ghosts
             rack.rackData.RecreateWithoutGhosts();

@@ -76,7 +76,7 @@ public class MenuController : MonoBehaviour
 
 public enum MenuID
 {
-    //product editor
+    //productMono editor
     ProductEditor,
 
     //filters
@@ -85,7 +85,7 @@ public enum MenuID
     //rack editor
     RackEditor,
 
-    //product list
+    //productMono list
     ProductList
 
 }
@@ -98,10 +98,10 @@ public static class MenuHandler
     //default ID
     public static MenuID defaultID = MenuID.ProductList;
 
-    //selected product
+    //selected productMono
     private static ISelectable selectedObj;
 
-    //set selected product
+    //set selected productMono
 
     public static void SetNewSelectedObject(ISelectable obj)
     {

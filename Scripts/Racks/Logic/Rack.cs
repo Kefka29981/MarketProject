@@ -54,7 +54,7 @@ public class Rack
         this.products = new List<Product>();
         foreach (Product product in rack.products)
         {
-            //create duplicate of product
+            //create duplicate of productMono
             Product newProduct = new Product(product);
             this.AddProduct(newProduct);
         }
@@ -62,10 +62,10 @@ public class Rack
 
 
 
-    //add product to rack
+    //add productMono to rack
     public void AddProduct(Product product)
     {
-        //set parameters of product
+        //set parameters of productMono
         product.SetActualParameters();
 
         bool result = CanAddProduct(product);
@@ -74,17 +74,17 @@ public class Rack
         {
             products.Add(product);
 
-            //set new x and y of product
-            //x equals to leftest point plus half product width
-            //y equals to height minus half product height
+            //set new x and y of productMono
+            //x equals to leftest point plus half productMono width
+            //y equals to height minus half productMono height
             product.x = leftestPoint + product.width / 2;
             product.y = product.height / 2;
 
             //update leftest point
             leftestPoint += product.width;
 
-            //update z amount of product (check how many times it can be stacked in depth)
-            //product.amount[Axis.Z] = (int)(depth / product.depth);
+            //update z amount of productMono (check how many times it can be stacked in depth)
+            //productMono.amount[Axis.Z] = (int)(depth / productMono.depth);
 
             product.rack = this;
 
@@ -101,7 +101,7 @@ public class Rack
         RecreateRack(products);
     }
 
-    //check if product can be added to rack
+    //check if productMono can be added to rack
     public bool CanAddProduct(Product product)
     {
         bool result = true;
@@ -112,7 +112,7 @@ public class Rack
         //get horizontal free space
         float freeSpace = this.width - this.leftestPoint;
 
-        //compare product width with free space
+        //compare productMono width with free space
         if (product.width > freeSpace)
         {
             result = false;
@@ -151,12 +151,12 @@ public class Rack
 
         foreach (Product product in new_products)
         {
-            //check if product can be added to rack
+            //check if productMono can be added to rack
             bool result = CanAddProduct(product);
 
             if (result)
             {
-                //add product to rack
+                //add productMono to rack
                 AddProduct(product);
             }
             else
@@ -180,15 +180,15 @@ public class Rack
         RecreateRack(products);
     }
 
-    //add product on certain index
+    //add productMono on certain index
     public void AddProductOnIndex(Product product, int index)
     {
-        //check if product can be added to rack
+        //check if productMono can be added to rack
         bool result = CanAddProduct(product);
 
         if (result)
         {
-            //add product to rack
+            //add productMono to rack
             products.Insert(index, product);
 
             //recreate rack
@@ -233,18 +233,18 @@ public class Rack
         //clear reserved products list
         foreach (Product product in products)
         {
-            //reserved product
+            //reserved productMono
             Product reservedProduct = new Product(product);
             reservedProducts.Add(reservedProduct);
 
-            //if product set as active by menu
+            //if productMono set as active by menu
             if (menu.activeProduct == product)
             {
-                //set reserved product as active
+                //set reserved productMono as active
                 menu.reserveProduct = reservedProduct;
 
                 //log
-                Debug.Log("Reserved product set");
+                Debug.Log("Reserved productMono set");
             }
 
         }

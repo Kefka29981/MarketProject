@@ -22,12 +22,13 @@ public class RackMono : MonoBehaviour, IRender
     {
         //clear all products
         foreach (Transform child in transform)
-        {   DragDropProduct productMono = child.GetComponent<DragDropProduct>();
-            //check if child is productMono
-            if (productMono != null)
+        {   
+            ProductMono mono = child.GetComponent<ProductMono>();
+            //check if child is mono
+            if (mono != null)
             {
                 //destroy child if not dragging
-                if (productMono.IsDragging == false)
+                if (mono.isDragging == false)
                 {
                     Destroy(child.gameObject);
                 }
@@ -52,22 +53,28 @@ public class RackMono : MonoBehaviour, IRender
         {
             if(!product.isGhost)
             {
-            //create product object
+            //create productMono object
             GameObject productObject = Instantiate(productPrefab);
             productObject.transform.SetParent(transform, false);
 
-            //set product object position
+            //set productMono object position
             productObject.transform.localPosition = new Vector3(product.x, product.y, 0);
 
-            //set product object size
+            //set productMono object size
             productObject.GetComponent<RectTransform>().sizeDelta = new Vector2(product.width, product.height);
 
-            //set product reference
+            //set productMono reference
             ProductMono productMono = productObject.GetComponent<ProductMono>();
             productMono.product = product;
             productMono.rack = this;
 
-            //render product
+            //todo: refactor later
+            ProductDragDrop pdd = productObject.GetComponent<ProductDragDrop>();
+
+            pdd.rack = this;
+            pdd.productMono = productMono;
+
+                //render productMono
             productMono.Render();
             }
             else //same for ghost
@@ -114,7 +121,7 @@ public class RackMono : MonoBehaviour, IRender
             rackData.AddProduct(product2);
             rackData.AddProduct(product3);
 
-            //increment product 2 width
+            //increment productMono 2 width
             product2.IncrementAmount(Axis.X, 2);
 
 
@@ -149,7 +156,7 @@ public class RackMono : MonoBehaviour, IRender
             rackData.AddProduct(product2);
             rackData.AddProduct(product3);
 
-            //increment product 2 width
+            //increment productMono 2 width
             product2.IncrementAmount(Axis.X, 2);
 
 
@@ -167,7 +174,7 @@ public class RackMono : MonoBehaviour, IRender
         transform.SetAsLastSibling();
     }
 
-    //find productmono by product
+    //find productmono by productMono
     public ProductMono FindProductMono(Product product)
     {
         foreach (Transform child in transform)
