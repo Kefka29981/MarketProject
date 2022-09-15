@@ -53,29 +53,31 @@ public class RackMono : MonoBehaviour, IRender
         {
             if(!product.isGhost)
             {
-            //create productMono object
-            GameObject productObject = Instantiate(productPrefab);
-            productObject.transform.SetParent(transform, false);
+                //create productMono object
+                GameObject productObject = Instantiate(productPrefab);
+                productObject.transform.SetParent(transform, false);
 
-            //set productMono object position
-            productObject.transform.localPosition = new Vector3(product.x, product.y, 0);
+                //set productMono object position
+                productObject.transform.localPosition = new Vector3(product.x, product.y, 0);
 
-            //set productMono object size
-            productObject.GetComponent<RectTransform>().sizeDelta = new Vector2(product.width, product.height);
+                //todo: get component without using GetComponent
+                //todo: use SetSize method
+                //set productMono object size
+                productObject.GetComponent<RectTransform>().sizeDelta = new Vector2(product.width, product.height);
 
-            //set productMono reference
-            ProductMono productMono = productObject.GetComponent<ProductMono>();
-            productMono.product = product;
-            productMono.rack = this;
+                //set productMono reference
+                ProductMono productMono = productObject.GetComponent<ProductMono>();
+                productMono.product = product;
+                productMono.rack = this;
 
-            //todo: refactor later
-            ProductDragDrop pdd = productObject.GetComponent<ProductDragDrop>();
+                //todo: refactor later
+                ProductDragDrop pdd = productObject.GetComponent<ProductDragDrop>();
 
-            pdd.rack = this;
-            pdd.productMono = productMono;
+                pdd.rack = this;
+                pdd.productMono = productMono;
 
                 //render productMono
-            productMono.Render();
+                productMono.Render();
             }
             else //same for ghost
             {

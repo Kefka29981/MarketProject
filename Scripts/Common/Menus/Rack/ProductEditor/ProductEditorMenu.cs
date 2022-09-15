@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProductEditorMenu : MenuScript
+public class ProductEditorMenu : MenuSelectable
 {
     //fields
     public Button button;
@@ -34,7 +34,7 @@ public class ProductEditorMenu : MenuScript
             //log
             Debug.Log("ProductEditorMenu: GetData: Product found");
             
-            MenuHandler.SetNewSelectedObject(productBody as ISelectable);
+            //MenuHandler.SetNewSelectedObject(productBody as ISelectable);
 
             activeProduct = product;
 
@@ -132,6 +132,10 @@ public class ProductEditorMenu : MenuScript
 
         //debug log
         Debug.Log("ProductEditorMenu: SetReserveProductAsActive: Active productMono set");
+
+        
+        
     }
 
+    
 }

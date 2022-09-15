@@ -4,23 +4,25 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 
-//TODO: make static
-public class CategoryController : MonoBehaviour
+
+public static class CategoryController
 {
 
     //fields
     //root category
-    public Category Root;
+    public static Category Root;
 
     //active category
-    public Category Active;
+    public static Category Active;
 
     //filter menu
-    public FilterMenu filterMenu;
+    public static FilterMenu filterMenu;
 
     // Start is called before the first frame update
-    void Start()
+    public static void Start()
     {
+        //get filter menu from menu handler
+        filterMenu = MenuHandler.filterMenu;
         //create category tree
         CreateCategories();
         //load from json
@@ -32,7 +34,7 @@ public class CategoryController : MonoBehaviour
         filterMenu.InstantiateFilters();
     }
 
-    void CreateCategories()
+    static void CreateCategories()
     {
         //create category alcohol
         Category alcohol = new Category("Alcohol", "alcohol");
@@ -76,8 +78,74 @@ public class CategoryController : MonoBehaviour
         System.IO.File.WriteAllText("Assets/Resources/categories.json", json);
     }
 
+    //find category by tag
+    public static Category FindCategory(string tag)
+    {
+        //create queue
+        Queue<Category> queue = new Queue<Category>();
+
+        //add root to queue
+        queue.Enqueue(Root);
+
+        //while queue is not empty
+        while (queue.Count > 0)
+        {
+            //get category from queue
+            Category category = queue.Dequeue();
+
+            //if category tag is equal to tag
+            if (category.tag == tag)
+            {
+                //return category
+                return category;
+            }
+
+            //add subcategories to queue
+            foreach (Category subcategory in category.subcategories)
+            {
+                queue.Enqueue(subcategory);
+            }
+        }
+
+        //if category not found, exception
+        throw new System.Exception("Category not found");
+    }
+
+    //find all parent categories of category
+    public static List<Category> FindParents(Category category)
+    {
+        //create list of parents
+        List<Category> parents = new List<Category>();
+
+        //find parent by tag for categories until find root
+        while (category.tag != "root")
+        {
+            //find parent by tag
+            category = FindCategory(category.parent);
+
+            //add parent to list
+            parents.Add(category);
+        }
+
+        //reverse list
+        parents.Reverse();
+
+        //return list of parents
+        return parents;
+    }
+
+    //set active category
+    public static void SetActive(Category category)
+    {
+        Active = category;
+        MenuHandler.filterMenu.InstantiateFilters();
+        MenuHandler.filterMenu.filterHierarchy.InstantiateAllButtons();
+    }
+
+
+
     //load from json file
-    public Category LoadFromJSON()
+    static public Category LoadFromJSON()
     {
         //load from json file
         string json = System.IO.File.ReadAllText("Assets/Resources/categories.json");
@@ -87,5 +155,12 @@ public class CategoryController : MonoBehaviour
 
         return root;
     }
+
+    //static constructor
+    static CategoryController()
+    {
+        Start();
+    }
+
 
 }

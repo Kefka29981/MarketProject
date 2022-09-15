@@ -15,6 +15,9 @@ public class Category
     //subcategories
     public List<Category> subcategories;
 
+    //parent category tag
+    public string parent;
+    
     //methods
     //constructor
     public Category(string name, string tag)
@@ -28,6 +31,7 @@ public class Category
     public void AddSubcategory(Category subcategory)
     {
         subcategories.Add(subcategory);
+        subcategory.parent = this.tag;
     }
     
 }

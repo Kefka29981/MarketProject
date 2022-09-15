@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,9 @@ using UnityEngine;
 
 //this component is attached to new productMono objects
 //it always moves with the mouse
+
+
+//todo: make it so that the productMono is always in front of the rack
 
 public class ProductPositioner : MonoBehaviour
 {
@@ -25,12 +29,21 @@ public class ProductPositioner : MonoBehaviour
     //bool to check if the productMono is in the rack
     public bool onRack = false;*/
 
+    //timer coroutine
+    IEnumerator Timer()
+    {
+        yield return new WaitForSeconds(0.25f);
+        //trigger alarm
+        TimerAlarm();
+        //restart timer
+        StartCoroutine(Timer());
+    }
+
+
     //update
     void Update()
     {
         Move();
-
-        StatusCheck();
 
         //on click
         if (Input.GetMouseButtonDown(0))
@@ -51,8 +64,8 @@ public class ProductPositioner : MonoBehaviour
     //start
     void Start()
     {
-        //spawn new productMono
-        ProductData productData = new ProductData(10, 20, 10,10);
+        /*/spawn new productMono
+        ProductData productData = new ProductData(10, 209, 10,10);
 
         //create new productMono
         Product product = new Product(productData);
@@ -60,13 +73,16 @@ public class ProductPositioner : MonoBehaviour
         
 
         //set productMono productMono
-        productMono.product = product;
+        productMono.product = product;*/
 
         //set as ghost
         productMono.product.isGhost = true;
 
         //isDragging = true
         productMono.isDragging = true;
+
+        //start coroutine
+        StartCoroutine(Timer());
     }
 
     //void move
@@ -103,7 +119,7 @@ public class ProductPositioner : MonoBehaviour
 
     private void OnOverRack(RackMono actualRack)
     {
-        if (actualRack.rackData.CanAddProduct(productMono.product))
+        if (actualRack.rackData.CanAddProduct(productMono.product, containmentCheck: true))
         {
             rackMono = actualRack;
             //set rackmono as productMono mono parent
@@ -149,7 +165,27 @@ public class ProductPositioner : MonoBehaviour
             }
         }
 
+        //if the closest index is the last one
+        if (closestIndex == rack.rackData.products.Count - 1)
+        {
+            //if the x coordinate is bigger than the last product
+            if (x_coordinate > rack.rackData.products[closestIndex].x)
+            {
+                //add one to the index
+                closestIndex++;
+            }
+        }
+
+        //log closest index
+        Debug.Log("closest index: " + closestIndex);
+
         return closestIndex;
+    }
+
+    //timer alarm
+    public void TimerAlarm()
+    {
+        StatusCheck();
     }
 }
 

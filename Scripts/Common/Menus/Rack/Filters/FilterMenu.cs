@@ -8,22 +8,29 @@ using TMPro;
 
 public class FilterMenu: MenuScript
 {
-    public CategoryController categoryController;
 
     public GameObject filterPrefab;
 
     public GameObject filtersListObject;
 
-    public GameObject filterHierarchy;
+    public FilterHierarchy filterHierarchy;
 
     //public TextMeshProUGUI Text;
 
     public string[] appliedFilters;
 
+    //start
+    void Start()
+    {
+        //start category controller
+        //CategoryController.Start();
+        ToRoot();
+    }
+
     //to root category
     public void ToRoot()
     {
-        categoryController.Active = categoryController.Root;
+        CategoryController.Active = CategoryController.Root;
         InstantiateFilters();
 
         //clear text
@@ -33,6 +40,7 @@ public class FilterMenu: MenuScript
     //Instantiate a filter buttons for each subcategory of active category
     public void InstantiateFilters()
     {
+
         //destroy all content of filters list object
         foreach (Transform child in filtersListObject.transform)
         {
@@ -40,7 +48,7 @@ public class FilterMenu: MenuScript
         }
 
         //get active category
-        Category active = categoryController.Active;
+        Category active = CategoryController.Active;
 
         //get subcategories
         List<Category> subcategories = active.subcategories;
@@ -59,8 +67,7 @@ public class FilterMenu: MenuScript
             
             filterButton.onClick.AddListener(() =>
             {
-                categoryController.Active = subcategory;
-                InstantiateFilters();
+                CategoryController.SetActive(subcategory);
             });
 
             //set button text
@@ -74,7 +81,7 @@ public class FilterMenu: MenuScript
     //return all tags of active category and all subcategories (for example, root returns "root, alcohol, wine, beer, liquor, food, drinks, snacks, desserts")
     public void GetTags()
     {
-        Category category = categoryController.Active;
+        Category category = CategoryController.Active;
 
         //category to json
         string json = Newtonsoft.Json.JsonConvert.SerializeObject(category);
