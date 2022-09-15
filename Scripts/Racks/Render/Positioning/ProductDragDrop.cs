@@ -94,15 +94,15 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
         //if closest index not equal to current ghost index on rack
         if (rack.rackData.products.IndexOf(productMono.product) != index)
         {
-            //remove productMono from rack
-            rack.rackData.products.Remove(productMono.product);
+            //reposition product
+            rack.rackData.RepositionProduct(productMono.product, index);
 
-            //add productMono to rack at closest index
-            rack.rackData.AddProductOnIndex(productMono.product, index);
-
-            //render rack
-            rack.Render();
+            
         }
+
+        //TODO: render only if something changed
+        //render rack
+        rack.Render();
     }    
 
     //Closest index on rack (if neigbours are 4 and 5, then closest index is 5)
@@ -135,7 +135,7 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
         if (newRack != null)
         {
             //say hello
-            Debug.Log("Hello");
+            //Debug.Log("Hello");
         }
 
         //if not null and not equal to current rack
@@ -150,12 +150,14 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
 
             //recreate old rack without ghosts
             rack.rackData.RecreateWithoutGhosts();
-            
+
             //render old rack
             rack.Render();
-
+            
             //set new rack
             rack = newRack;
+
+
         }
     }
 

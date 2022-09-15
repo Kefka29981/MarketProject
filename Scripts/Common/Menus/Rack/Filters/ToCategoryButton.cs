@@ -19,14 +19,11 @@ public class ToCategoryButton : MonoBehaviour
     //go to category
     public void ToCategory()
     {
-        //get filter menu
-        var filterMenu = GetComponentInParent<FilterMenu>();
-
         //set active category
-        filterMenu.categoryController.Active = Category;
+        CategoryController.SetActive(Category);
 
         //instantiate filters
-        filterMenu.InstantiateFilters();
+        MenuHandler.filterMenu.InstantiateFilters();
     }
 
 

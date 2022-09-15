@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -34,6 +35,22 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
 
 
         text.text = size + "\n" + amount + "\n" + rotation;
+
+        //if product is equal to active product from menu, select it
+        if (product == MenuHandler.productEditorMenu.activeProduct)
+        {
+            //cast this as ISelectable
+            ISelectable selectable = this as ISelectable;
+
+            //select this
+            selectable.Select();
+        }
+    }
+
+    public void SetSize(float width, float height)
+    {
+        //set size
+        image.rectTransform.sizeDelta = new Vector2(width, height);
     }
 
     //ISelectable methods and properties
@@ -44,12 +61,16 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
 
     void ISelectable.OnSelect()
     {
-        //make text visible
-        text.gameObject.SetActive(true);
+        //if not ghost
+        if (!product.isGhost)
+        {
+            //make text visible
+            text.gameObject.SetActive(true);
+        }
     }
 
 
-    void ISelectable.Unselect()
+    void ISelectable.OnUnselect()
     {
         //if text not null
         if (text != null)
@@ -57,5 +78,21 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
             //make text invisible
             text.gameObject.SetActive(false);
         }
+    }
+
+    //unselect trigger
+    public bool UnselectTrigger()
+    {
+        //result
+        bool result = false;
+
+        //when right click
+        if (Input.GetMouseButtonDown(1))
+        {
+            result = true;
+        }
+
+        //return result
+        return result;
     }
 }

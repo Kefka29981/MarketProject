@@ -5,31 +5,15 @@ using System.Linq;
 public class FilterHierarchy : MonoBehaviour
 
 {
-    public CategoryController categoryController;
 
     public List<ToCategoryButton> CategoriesButtons;
 
     public GameObject ToCategoryButtonPrefab;
 
     public GameObject startingPoint;
+    
 
-    //instantiate prefab and add it to list
-    void Start()
-    {
-        //find category controller
-        categoryController = GetComponentInParent<FilterMenu>().categoryController;
-        
-        //instantiate prefab
-        InstantiateButton();
-        InstantiateButton();
-        InstantiateButton();
-        InstantiateButton();
-        InstantiateButton();
-        InstantiateButton();
-
-    }
-
-    public ToCategoryButton InstantiateButton()
+    public ToCategoryButton InstantiateButton(Category category)
     {
         //instantiate button prefab
         GameObject button = Instantiate(ToCategoryButtonPrefab);
@@ -43,13 +27,29 @@ public class FilterHierarchy : MonoBehaviour
         //add button to list
         CategoriesButtons.Add(buttonScript);
 
-        //set category to active
-        buttonScript.SetCategory(categoryController.Active);
-
-        //set Y position for all buttons
-        SetButtonsYPosition();
+        //set category
+        buttonScript.SetCategory(category);
+        
 
         return buttonScript;
+    }
+
+    public void InstantiateAllButtons()
+    {
+        //clear buttons
+        ClearButtons();
+        
+        //get list of all categories from root to active
+        List<Category> parentCategories = CategoryController.FindParents(CategoryController.Active);
+
+        //instantiate buttons for each category
+        foreach (Category category in parentCategories)
+        {
+            InstantiateButton(category);
+        }
+        //log count
+        Debug.Log("Buttons count: " + parentCategories.Count);
+        SetButtonsYPosition();
     }
 
     //set all buttons y position
@@ -79,5 +79,16 @@ public class FilterHierarchy : MonoBehaviour
             button.transform.localPosition = new Vector3(0, -newY, 0);
 
         }
+    }
+
+    //clear all buttons
+    public void ClearButtons()
+    {
+        foreach (ToCategoryButton button in CategoriesButtons)
+        {
+            Destroy(button.gameObject);
+        }
+
+        CategoriesButtons.Clear();
     }
 }

@@ -95,6 +95,7 @@ public class Rack
 
     public void RemoveProduct(Product product)
     {
+        
         products.Remove(product);
 
         //recreate rack
@@ -102,7 +103,7 @@ public class Rack
     }
 
     //check if productMono can be added to rack
-    public bool CanAddProduct(Product product)
+    public bool CanAddProduct(Product product, bool containmentCheck = false)
     {
         bool result = true;
 
@@ -129,6 +130,25 @@ public class Rack
         {
             result = false;
         }
+
+        //if containment check is enabled
+        if (containmentCheck)
+        {
+            //debug log result
+            Debug.Log("Containment check result: " + result);
+            //check if product already exists in rack
+            if (products.Contains(product))
+            {
+                //if result was false before, send status update message log
+                if (!result)
+                {
+                    //debug log
+                    Debug.Log("Product already exists in rack");
+                }
+                result = true;
+            }
+        }
+
 
         return result;
     }
@@ -162,7 +182,7 @@ public class Rack
             else
             {
                 //print error message
-                Debug.Log("Product " + product.productData.id + " can't be added to rack");
+                //Debug.Log("Product " + product.productData.id + " can't be added to rack");
                 //recreate with reserved products
                 RecreateRack(reservedProducts);
                 //set reserve as active
@@ -181,10 +201,10 @@ public class Rack
     }
 
     //add productMono on certain index
-    public void AddProductOnIndex(Product product, int index)
+    public void AddProductOnIndex(Product product, int index, bool containmentCheck = false)
     {
         //check if productMono can be added to rack
-        bool result = CanAddProduct(product);
+        bool result = CanAddProduct(product, containmentCheck: containmentCheck);
 
         if (result)
         {
@@ -198,6 +218,20 @@ public class Rack
         {
             //print error message
             Debug.Log("Product " + product.productData.id + " can't be added to rack");
+        }
+    }
+
+    //reposition product to index
+    public void RepositionProduct(Product product, int index)
+    {
+
+        if (CanAddProduct(product, containmentCheck: true))
+        {
+            //remove product from rack
+            RemoveProduct(product);
+
+            //add product to new index
+            AddProductOnIndex(product, index);
         }
     }
 

@@ -95,6 +95,11 @@ public static class MenuHandler
     //menu controller
     public static MenuController menuController;
 
+    //all menu classes reference
+    public static FilterMenu filterMenu;
+    public static ProductEditorMenu productEditorMenu;
+    public static ProductListMenu productListMenu;
+
     //default ID
     public static MenuID defaultID = MenuID.ProductList;
 
@@ -103,6 +108,7 @@ public static class MenuHandler
 
     //set selected productMono
 
+    /*
     public static void SetNewSelectedObject(ISelectable obj)
     {
         //log
@@ -113,23 +119,52 @@ public static class MenuHandler
         {
             selectedObj.Unselect();
         }
-        //set selected object
+        //select new object
+
         selectedObj = obj;
-    }
+    }*/
 
     //unselect selected object and activate global menu
     public static void UnselectCurrentObject()
     {
+        ///<summary>
+        ///
+        ///
+        ///NEVER USE UNSELECT HERE!!!
+        ///
+        ///  
+        ///<summary>
+        
+
+
         //if the selected object is not null
         if (selectedObj != null)
         {
-            selectedObj.Unselect();
+
+
+            //todo: refactor this
+            //get as mono and stop coroutine if possible
+            try
+            {
+                MonoBehaviour mono = selectedObj as MonoBehaviour;
+                mono.StopAllCoroutines();
+                selectedObj = null;
+            }
+            catch (System.Exception)
+            {
+                
+            }
         }
+
     }
 
     static MenuHandler()
     {
         //get menu controller
         menuController = GameObject.Find("MenuController").GetComponent<MenuController>();
+        //get all menu classes reference
+        filterMenu = GameObject.Find("FilterMenu").GetComponent<FilterMenu>();
+        
+        productEditorMenu = GameObject.Find("ProductEditor").GetComponent<ProductEditorMenu>();
     }
 }
