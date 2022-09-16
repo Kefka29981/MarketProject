@@ -61,25 +61,25 @@ public class FilterMenu: MenuScript
 
             filter.transform.SetParent(filtersListObject.transform, false);
 
-            //set filter action
-            //find filter button child
-            Button filterButton = filter.transform.Find("Button").gameObject.GetComponent<Button>();
-            
-            filterButton.onClick.AddListener(() =>
-            {
-                CategoryController.SetActive(subcategory);
-            });
+            filter.GetComponent<FilterPanel>().Init(subcategory);
 
-            //set button text
-            filter.transform.Find("Text").gameObject.GetComponent<Text>().text = subcategory.name;
         }
+        
+        //instantiate all buttons in filter hierarchy
+        filterHierarchy.InstantiateAllButtons();
 
-        //Update text
-        //UpdateText();
+        //if no subcategories, show product list
+        if (subcategories.Count == 0)
+        {
+            //set menu as active
+            MenuHandler.menuController.CurrentMenu = MenuID.ProductList;
+            //show product list
+            MenuHandler.menuController.ShowMenu();
+        }
     }
 
     //return all tags of active category and all subcategories (for example, root returns "root, alcohol, wine, beer, liquor, food, drinks, snacks, desserts")
-    public void GetTags()
+    public string[] GetTags()
     {
         Category category = CategoryController.Active;
 
@@ -103,6 +103,24 @@ public class FilterMenu: MenuScript
             Debug.Log(tags[i]);
         }
 
+        //load in applied filters
+        appliedFilters = tags;
+
+        return appliedFilters;
+    }
+
+    //call apply filters from product list
+    public void ApplyFilters()
+    {
+        //get product list
+        ProductListMenu productList = MenuHandler.productListMenu;
+
+        //apply filters
+        productList.ApplyFilters();
+
+        //return to product list menu
+        MenuHandler.menuController.CurrentMenu = MenuID.ProductList;
+        MenuHandler.menuController.ShowMenu();
     }
 
     /*/update text field every time user changes active category

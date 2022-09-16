@@ -31,9 +31,9 @@ public class Product
     public int totalAmount;
 
     //constructor (with only productdata)
-    public Product(ProductData productData, bool isGhost = false)
+    public Product(int id, bool isGhost = false)
     {
-        this.productData = productData;
+        this.productData = ProductDataCVS.product_data[id];
         this.width = productData.base_width;
         this.height = productData.base_height;
         this.depth = productData.base_depth;
@@ -105,10 +105,10 @@ public class Product
 }
 
 
-//all possible rotations of 3-dimensional products
+//all possible rotations of 3-dimensional globalProducts
 public class Rotation
 {
-    //this class contains all possible rotations of 3-dimensional products
+    //this class contains all possible rotations of 3-dimensional globalProducts
 
     //fields
     public Dictionary<Axis, Axis> rotations = new Dictionary<Axis, Axis>();

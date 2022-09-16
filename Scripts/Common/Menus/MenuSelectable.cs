@@ -13,4 +13,10 @@ public class MenuSelectable : MenuScript
     {
         //override
     }
+
+    
+    public virtual void CouldBeSelected()
+    {
+        //override
+    }
 }

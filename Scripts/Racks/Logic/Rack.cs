@@ -22,10 +22,10 @@ public class Rack
     public float x;
     public float y;
 
-    //products
+    //globalProducts
     public List<Product> products;
 
-    //reserved products list (used to store old products when changing rack)
+    //reserved globalProducts list (used to store old globalProducts when changing rack)
     public List<Product> reservedProducts;
 
     //methods
@@ -183,7 +183,7 @@ public class Rack
             {
                 //print error message
                 //Debug.Log("Product " + product.productData.id + " can't be added to rack");
-                //recreate with reserved products
+                //recreate with reserved globalProducts
                 RecreateRack(reservedProducts);
                 //set reserve as active
                 menu.SetReserveProductAsActive();
@@ -194,7 +194,7 @@ public class Rack
 
     }
 
-    //recreate rack with same products
+    //recreate rack with same globalProducts
     public void RecreateRack()
     {
         RecreateRack(products);
@@ -241,7 +241,7 @@ public class Rack
         //create new list
         List<Product> new_products = new List<Product>();
 
-        //add only products without ghosts
+        //add only globalProducts without ghosts
         foreach (Product product in products)
         {
             if (!product.isGhost)
@@ -254,7 +254,7 @@ public class Rack
         RecreateRack(new_products);
     }
 
-    //update reserved products
+    //update reserved globalProducts
     public void UpdateReservedProducts()
     {
         //create new list
@@ -264,7 +264,7 @@ public class Rack
         //get according menu from menu handler
         ProductEditorMenu menu = MenuHandler.menuController.GetCurrentMenuScript() as ProductEditorMenu;
 
-        //clear reserved products list
+        //clear reserved globalProducts list
         foreach (Product product in products)
         {
             //reserved productMono
