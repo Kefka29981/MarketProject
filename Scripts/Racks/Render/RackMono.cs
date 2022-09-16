@@ -20,7 +20,7 @@ public class RackMono : MonoBehaviour, IRender
 
     public void Clear()
     {
-        //clear all products
+        //clear all globalProducts
         foreach (Transform child in transform)
         {   
             ProductMono mono = child.GetComponent<ProductMono>();
@@ -42,13 +42,13 @@ public class RackMono : MonoBehaviour, IRender
 
     public void Render()
     {
-        //clear all products
+        //clear all globalProducts
         Clear();
 
         //set image width and height
         image.rectTransform.sizeDelta = new Vector2(rackData.width, rackData.height);
 
-        //draw all products in rack
+        //draw all globalProducts in rack
         foreach (Product product in rackData.products)
         {
             if(!product.isGhost)
@@ -103,22 +103,20 @@ public class RackMono : MonoBehaviour, IRender
             //create new rack
             rackData = new Rack(500, 150, 100, 100, 100);
 
-            //create products data
-            ProductData productData1 = new ProductData(1, 50, 50, 25);
-            ProductData productData2 = new ProductData(2, 50, 15, 25, canBePlacedOnTop: true);
-            ProductData productData3 = new ProductData(3, 90, 30, 100, canBePlacedOnTop: true);
+            //create globalProducts data
+            
 
-            //create new products
-            Product product1 = new Product(productData1);
-            Product product2 = new Product(productData2);
-            Product product3 = new Product(productData3);
+            //create new globalProducts
+            Product product1 = new Product(1);
+            Product product2 = new Product(1);
+            Product product3 = new Product(1);
 
 
             product2.rotation.RotateXY(product2);
             //apply rotation to product2
             product2.rotation.ApplyRotation(product2);
 
-            //add products to rack
+            //add globalProducts to rack
             rackData.AddProduct(product1);
             rackData.AddProduct(product2);
             rackData.AddProduct(product3);
@@ -138,22 +136,18 @@ public class RackMono : MonoBehaviour, IRender
             //create new rack
             rackData = new Rack(500, 100, 100, 100, 100);
 
-            //create products data
-            ProductData productData1 = new ProductData(1, 50, 50, 25);
-            ProductData productData2 = new ProductData(2, 50, 15, 25, canBePlacedOnTop: true);
-            ProductData productData3 = new ProductData(3, 90, 30, 100, canBePlacedOnTop: true);
-
-            //create new products
-            Product product1 = new Product(productData1);
-            Product product2 = new Product(productData2);
-            Product product3 = new Product(productData3);
+            
+            //create new globalProducts
+            Product product1 = new Product(1);
+            Product product2 = new Product(1);
+            Product product3 = new Product(1);
 
 
             product2.rotation.RotateXY(product2);
             //apply rotation to product2
             product2.rotation.ApplyRotation(product2);
 
-            //add products to rack
+            //add globalProducts to rack
             rackData.AddProduct(product1);
             rackData.AddProduct(product2);
             rackData.AddProduct(product3);

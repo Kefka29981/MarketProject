@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
 public class ProductListMenu : MenuScript
 {
     //fields
+    //list of globalProducts
+    public List<ProductData> globalProducts = new List<ProductData>();
+
     //list of products
     public List<ProductData> products = new List<ProductData>();
 
@@ -18,23 +22,17 @@ public class ProductListMenu : MenuScript
     //start
     void Start()
     {
-        //create two products
-        ProductData product1 = new ProductData(100, 100, 100, 100);
+        //load all products from cvs
+        globalProducts = ProductDataCVS.product_data;
 
-
-        ProductData product2 = new ProductData(103, 50, 50, 100);
-        //add products to list
-        products.Add(product1);
-        products.Add(product2);
-
-        //instantiate product panels
-        InstantiateProductPanels();
+        //apply filters
+        ApplyFilters();
     }
 
     //instantiate product panels
     public void InstantiateProductPanels()
     {
-        //for each product in products
+        //for each product in globalProducts
         foreach (ProductData product in products)
         {
             //instantiate product panel
@@ -53,6 +51,44 @@ public class ProductListMenu : MenuScript
             productPanelScript.Init();
         }
 
+    }
+
+    //open filter button
+    public void OpenFilterButton()
+    {
+        //set active menu
+        MenuHandler.menuController.CurrentMenu = MenuID.Filters;
+        //open filter menu
+        MenuHandler.menuController.ShowMenu();
+    }
+
+    //apply filters
+    public void ApplyFilters()
+    {
+        //clear products
+        products.Clear();
+
+        //get tags
+        List<string> tags = MenuHandler.filterMenu.GetTags().ToList();
+        //for each product in globalProducts
+        foreach (ProductData product in globalProducts)
+        {
+            //check if tags contains product tag
+            if (tags.Contains(product.tag))
+            {
+                //add product to products
+                products.Add(product);
+            }
+        }
+
+        //clear content
+        foreach (Transform child in content.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        //instantiate product panels
+        InstantiateProductPanels();
     }
 
 

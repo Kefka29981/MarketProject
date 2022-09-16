@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 //
 public class ProductPanel : MonoBehaviour
 {
     //product data
     public ProductData productData;
+
+    //button
+    public Button button;
+
+    public TextMeshProUGUI text;
 
     //todo: create static class to store prefabs
     //prefab for spawned product
@@ -16,6 +23,8 @@ public class ProductPanel : MonoBehaviour
     //initiate product panel
     public void Init()
     {
+
+        text.text = productData.name;
 
     }
 
@@ -38,13 +47,16 @@ public class ProductPanel : MonoBehaviour
         ProductMono productMono = spawnedProduct.GetComponent<ProductMono>();
 
         //create new product
-        Product product = new Product(productData);
+        Product product = new Product(productData.id);
         //set product data
         productMono.product = product;
 
         //todo: use SetSize method instead
         //set size
         productMono.GetComponent<RectTransform>().sizeDelta = new Vector2(product.width, product.height);
+
+        //get menu controller and set active product to this in product editor menu
+        MenuHandler.productEditorMenu.activeProduct = product;
     }
 
     //find all objects with component ProductPositioner

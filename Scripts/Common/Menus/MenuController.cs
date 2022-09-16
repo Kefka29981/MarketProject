@@ -28,6 +28,7 @@ public class MenuController : MonoBehaviour
     }
 
     //show menu
+    //TODO: if selectable, trigger only if not null (check couldBeSelected method)
     public void ShowMenu()
     {
         HideAllMenus();
@@ -166,5 +167,7 @@ public static class MenuHandler
         filterMenu = GameObject.Find("FilterMenu").GetComponent<FilterMenu>();
         
         productEditorMenu = GameObject.Find("ProductEditor").GetComponent<ProductEditorMenu>();
+
+        productListMenu = GameObject.Find("ProductList").GetComponent<ProductListMenu>();
     }
 }

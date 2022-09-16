@@ -16,13 +16,18 @@ public struct ProductData
 
     public bool canBePlacedOnTop;
 
+    public string tag;
+    public string name;
+
     //constructor
-    public ProductData(int id, float base_width, float base_height, float base_depth, bool canBePinned = false, bool canBePlacedOnTop = false)
+    public ProductData(int id, float base_width, float base_height, float base_depth, string name = "Default", string tag = "default", bool canBePinned = false, bool canBePlacedOnTop = false)
     {
         this.id = id;
         this.base_width = base_width;
         this.base_height = base_height;
         this.base_depth = base_depth;
+        this.name = name;
+        this.tag = tag;
         this.canBePinned = canBePinned;
         this.canBePlacedOnTop = canBePlacedOnTop;
     }

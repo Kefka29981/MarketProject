@@ -37,7 +37,7 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
         text.text = size + "\n" + amount + "\n" + rotation;
 
         //if product is equal to active product from menu, select it
-        if (product == MenuHandler.productEditorMenu.activeProduct)
+        if (product == MenuHandler.productEditorMenu.activeProduct && !product.isGhost)
         {
             //cast this as ISelectable
             ISelectable selectable = this as ISelectable;

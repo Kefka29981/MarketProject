@@ -17,7 +17,13 @@ public class Category
 
     //parent category tag
     public string parent;
-    
+
+    //check if contains any subcategories
+    public bool HasSubcategories()
+    {
+        return subcategories.Count > 0;
+    }
+
     //methods
     //constructor
     public Category(string name, string tag)
