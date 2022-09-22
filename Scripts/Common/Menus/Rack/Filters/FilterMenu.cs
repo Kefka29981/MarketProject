@@ -15,6 +15,9 @@ public class FilterMenu: MenuScript
 
     public FilterHierarchy filterHierarchy;
 
+    //text to show when no subcategories are available
+    public TextMeshProUGUI noSubcategoriesText;
+
     //public TextMeshProUGUI Text;
 
     public string[] appliedFilters;
@@ -25,6 +28,9 @@ public class FilterMenu: MenuScript
         //start category controller
         //CategoryController.Start();
         ToRoot();
+
+        //disable no subcategories text
+        noSubcategoriesText.enabled = false;
     }
 
     //to root category
@@ -40,6 +46,8 @@ public class FilterMenu: MenuScript
     //Instantiate a filter buttons for each subcategory of active category
     public void InstantiateFilters()
     {
+        //disable no subcategories text by default
+        noSubcategoriesText.enabled = false;
 
         //destroy all content of filters list object
         foreach (Transform child in filtersListObject.transform)
@@ -73,6 +81,13 @@ public class FilterMenu: MenuScript
         {
             //set menu as active
             MenuHandler.menuController.CurrentMenu = MenuID.ProductList;
+            
+            //get product list and apply filters
+            MenuHandler.productListMenu.ApplyFilters();
+
+            //show no subcategories text
+            noSubcategoriesText.enabled = true;
+
             //show product list
             MenuHandler.menuController.ShowMenu();
         }
