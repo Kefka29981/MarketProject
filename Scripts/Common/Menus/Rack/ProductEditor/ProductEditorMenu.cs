@@ -121,6 +121,19 @@ public class ProductEditorMenu : MenuSelectable
         rackMono.Render();
     }
 
+    //delete active product
+    public void DeleteActiveProduct()
+    {
+        //remove from rack
+        rackMono.rackData.RemoveProduct(activeProduct);
+
+        //render rack
+        rackMono.Render();
+
+        //default menu
+        MenuHandler.menuController.SetDefaultMenu();
+    }
+
     //set reserve productMono as active
     public void SetReserveProductAsActive()
     {
