@@ -64,6 +64,12 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    //set default menu
+    public void SetDefaultMenu()
+    {
+        SetCurrentMenu(MenuHandler.defaultID);
+    }
+
     //get current menu
     public MenuScript GetCurrentMenuScript()
     {
