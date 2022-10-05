@@ -40,7 +40,7 @@ public class RackMono : MonoBehaviour, IRender
         }
     }
 
-    public void Render()
+    public void RenderDefault()
     {
         //clear all globalProducts
         Clear();
@@ -77,7 +77,9 @@ public class RackMono : MonoBehaviour, IRender
                 pdd.productMono = productMono;
 
                 //render productMono
-                productMono.Render();
+                //get as IRender
+                IRender render = productMono as IRender;
+                render.RenderDefault();
             }
             else //same for ghost
             {
@@ -128,8 +130,9 @@ public class RackMono : MonoBehaviour, IRender
             //recreate rack
             rackData.RecreateRack();
 
-            //render rack
-            Render();
+            //render rack//render old rack//get rackmono as IRender
+            IRender rackRender = this as IRender;
+            rackRender.Render();
         }
         else
         {
@@ -159,8 +162,9 @@ public class RackMono : MonoBehaviour, IRender
             //recreate rack
             rackData.RecreateRack();
 
-            //render rack
-            Render();
+            //render rack//render old rack//get rackmono as IRender
+            IRender rackRender = this as IRender;
+            rackRender.Render();
         }
     }
 
@@ -170,7 +174,7 @@ public class RackMono : MonoBehaviour, IRender
         transform.SetAsLastSibling();
     }
 
-    //find productmono by productMono
+    //find productmono by product
     public ProductMono FindProductMono(Product product)
     {
         foreach (Transform child in transform)

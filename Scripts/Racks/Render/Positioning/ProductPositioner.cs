@@ -53,8 +53,9 @@ public class ProductPositioner : MonoBehaviour
             {
                 //make product not ghost
                 productMono.product.isGhost = false;
-                //RENDER
-                rackMono.Render();
+                //RENDER//render old rack//get rackmono as IRender
+                IRender rackRender = rackMono as IRender;
+                rackRender.Render();
                 //DESTROY EVERYTHING
                 Destroy(productMono.gameObject);
             }
@@ -80,6 +81,9 @@ public class ProductPositioner : MonoBehaviour
 
         //isDragging = true
         productMono.isDragging = true;
+
+        //spawn pinpoint
+        SpawnPinPoint();
 
         //start coroutine
         StartCoroutine(Timer());
@@ -132,8 +136,9 @@ public class ProductPositioner : MonoBehaviour
             //add productMono at index
             actualRack.rackData.AddProductOnIndex(productMono.product, index);
 
-            //render
-            rackMono.Render();
+            //render//render old rack//get rackmono as IRender
+            IRender rackRender = rackMono as IRender;
+            rackRender.Render();
         }
     }
 
@@ -142,8 +147,9 @@ public class ProductPositioner : MonoBehaviour
         //clear rack mono from ghosts
         rackMono.rackData.RecreateWithoutGhosts();
 
-        //render rack
-        rackMono.Render();
+        //get rackmono as IRender
+        IRender rackRender = rackMono as IRender;
+        rackRender.Render();
 
         //set as null
         rackMono = null;
@@ -186,6 +192,29 @@ public class ProductPositioner : MonoBehaviour
     public void TimerAlarm()
     {
         StatusCheck();
+    }
+
+    //if product product data pin point is true spawn pinpoint
+    public void SpawnPinPoint()
+    {
+        //log
+        Debug.Log("spawn pinpoint 1");
+        //if product product data pin point is true spawn pinpoint
+        if (productMono.product.productData.canBePinned)
+        {
+            //log
+            Debug.Log("spawn pinpoint 2");
+            //spawn pinpoint
+            GameObject pinpoint = Instantiate(PrefabStorage.pinPoint);
+            //set parent
+            pinpoint.transform.SetParent(productMono.transform);
+            //get product data as pin product data
+            PinProductData pinProductData = productMono.product.productData as PinProductData;
+            //set position
+            pinpoint.transform.localPosition = new Vector2(pinProductData.pinpoint_x, pinProductData.pinpoint_y);
+        }
+
+        
     }
 }
 

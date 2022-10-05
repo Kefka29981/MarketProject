@@ -5,7 +5,14 @@ using UnityEngine;
 //this interface is used to render or delete objects in the scene
 public interface IRender
 {
-    void Render();
-    void Clear();
     
+    void RenderDefault();
+    void Clear();
+
+    virtual void Render()
+    {
+        RenderDefault();
+    }
+
+
 }

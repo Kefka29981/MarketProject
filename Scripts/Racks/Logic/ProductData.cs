@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ProductData
 {   
@@ -12,7 +13,11 @@ public class ProductData
     public float base_height;
     public float base_depth;
 
-    public bool canBePinned;
+    public bool canBePinned
+    {
+        //todo: rework later
+        get => (GetType() == Type.GetType("PinProductData"));
+    }
 
     public bool canBePlacedOnTop;
 
@@ -20,7 +25,7 @@ public class ProductData
     public string name;
 
     //constructor
-    public ProductData(int id, float base_width, float base_height, float base_depth, string name = "Default", string tag = "default", bool canBePinned = false, bool canBePlacedOnTop = false)
+    public ProductData(int id, float base_width, float base_height, float base_depth, string name = "Default", string tag = "default", bool canBePlacedOnTop = false)
     {
         this.id = id;
         this.base_width = base_width;
@@ -28,7 +33,6 @@ public class ProductData
         this.base_depth = base_depth;
         this.name = name;
         this.tag = tag;
-        this.canBePinned = canBePinned;
         this.canBePlacedOnTop = canBePlacedOnTop;
     }
 }

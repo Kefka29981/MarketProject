@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShelfMono : MonoBehaviour, IRender, ISelectable
 {
-    public void Render()
+    public void RenderDefault()
     {
         throw new System.NotImplementedException();
     }

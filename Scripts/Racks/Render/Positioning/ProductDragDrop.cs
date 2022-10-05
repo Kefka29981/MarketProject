@@ -10,13 +10,21 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
     {
         get
         {
-            return productMono.GetComponent<RectTransform>();
+            //TODO: replace with the direct reference to the rectTransform
+            return rt;
         }
     }
+
+    public bool RestrictionEnabled { get => false; }
+    public Collider2D Restriction { get; }
+
 
     public GhostProduct ghost;
 
     public ProductMono productMono;
+
+    [SerializeField]
+    private RectTransform rt;
 
     public RackMono rack;
 
@@ -52,8 +60,9 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
         //set rack as main
         rack.SetAsMain();
 
-        //render rack
-        rack.Render();
+        //render rack//get rackmono as IRender
+        IRender rackRender = rack as IRender;
+        rackRender.Render();
 
         //start timer
         StartCoroutine(Timer());
@@ -69,12 +78,15 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
 
         //stop timer
         StopCoroutine(Timer());
-        
-        //render rack
-        rack.Render();
+
+        //render rack//get rackmono as IRender
+        IRender rackRender = rack as IRender;
+        rackRender.Render();
 
         //render old rack (reference in productMono)
-        productMono.rack.Render();
+        //get rackmono as IRender
+        IRender oldRackRender = productMono.rack as IRender;
+        oldRackRender.Render();
     }
 
     private void TimerAlarm()
@@ -102,7 +114,9 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
 
         //TODO: render only if something changed
         //render rack
-        rack.Render();
+        //get rackmono as IRender
+        IRender rackRender = rack as IRender;
+        rackRender.Render();
     }    
 
     //Closest index on rack (if neigbours are 4 and 5, then closest index is 5)
@@ -151,9 +165,10 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
             //recreate old rack without ghosts
             rack.rackData.RecreateWithoutGhosts();
 
-            //render old rack
-            rack.Render();
-            
+            //render old rack//get rackmono as IRender
+            IRender rackRender = rack as IRender;
+            rackRender.Render();
+
             //set new rack
             rack = newRack;
 

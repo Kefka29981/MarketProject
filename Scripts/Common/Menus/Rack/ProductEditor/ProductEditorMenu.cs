@@ -62,7 +62,9 @@ public class ProductEditorMenu : MenuSelectable
 
         textHolder.UpdateText();
 
-        rackMono.Render();
+        //get rackmono as IRender
+        IRender rackRender = rackMono as IRender;
+        rackRender.Render();
 
         
 
@@ -83,7 +85,9 @@ public class ProductEditorMenu : MenuSelectable
 
         textHolder.UpdateText();
 
-        rackMono.Render();
+        //get rackmono as IRender
+        IRender rackRender = rackMono as IRender;
+        rackRender.Render();
     }
 
     //rotate active productMono XY by 90 degrees
@@ -101,7 +105,9 @@ public class ProductEditorMenu : MenuSelectable
 
         textHolder.UpdateText();
 
-        rackMono.Render();
+        //get rackmono as IRender
+        IRender rackRender = rackMono as IRender;
+        rackRender.Render();
     }
 
     //rotate active productMono YZ by 90 degrees
@@ -118,7 +124,9 @@ public class ProductEditorMenu : MenuSelectable
 
         textHolder.UpdateText();
 
-        rackMono.Render();
+        //get rackmono as IRender
+        IRender rackRender = rackMono as IRender;
+        rackRender.Render();
     }
 
     //delete active product
@@ -128,7 +136,7 @@ public class ProductEditorMenu : MenuSelectable
         rackMono.rackData.RemoveProduct(activeProduct);
 
         //render rack
-        rackMono.Render();
+        rackMono.RenderDefault();
 
         //default menu
         MenuHandler.menuController.SetDefaultMenu();
