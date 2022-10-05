@@ -194,6 +194,12 @@ public class Rotation
         return rotations[axis];
     }
 
+    //is default
+    public bool IsDefault()
+    {
+        return rotations[Axis.X] == Axis.X && rotations[Axis.Y] == Axis.Y && rotations[Axis.Z] == Axis.Z;
+    }
+
 }
 
 public enum Axis

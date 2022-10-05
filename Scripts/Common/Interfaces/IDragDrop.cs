@@ -9,7 +9,13 @@ public interface IDragDrop : IDragHandler, IBeginDragHandler, IEndDragHandler
     //property rectTransform
     RectTransform rectTransform { get; }
 
-    
+    //property for the drag over object
+    bool RestrictionEnabled { get; }
+
+    //property for the object not to drag off
+    Collider2D Restriction { get; }
+
+
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
         //virtual method
@@ -21,8 +27,30 @@ public interface IDragDrop : IDragHandler, IBeginDragHandler, IEndDragHandler
 
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
-        //move the object
-        rectTransform.anchoredPosition += eventData.delta;
+        //get mouse position
+        Vector3 mousePosition = Input.mousePosition;
+
+
+        //get NotDragOverObject
+        if (!RestrictionEnabled)
+        {
+            //set productMono position vector 
+            rectTransform.position = (Vector2)Camera.main.ScreenToWorldPoint(mousePosition);
+        }
+        else
+        {
+            //check if mouse position is inside the restriction
+            if(Mouse.IsOverObject<Collider2D>(Restriction))
+            {
+                //set productMono position vector 
+                rectTransform.position = (Vector2)Camera.main.ScreenToWorldPoint(mousePosition);
+            }
+            else
+            {
+                //todo: check the side of the restriction and move the object inside the restriction
+                
+            }
+        }
 
         //virtual method
         OnMove();

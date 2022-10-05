@@ -26,7 +26,7 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
         //nothing for now
     }
 
-    public void Render()
+    public void RenderDefault()
     {
         //update text
         string size = "Size: " + product.width + " X, " + product.height + " Y, " + product.depth + " Z";
@@ -44,6 +44,18 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
 
             //select this
             selectable.Select();
+        }
+
+        //check if product can be pinned
+        if (product.productData.canBePinned)
+        {
+            //if default rotation and 1,1,x size
+            if (product.rotation.IsDefault() && product.amount[Axis.X] == 1 && product.amount[Axis.Y] == 1)
+            {
+                //if selected or 
+
+
+            }
         }
     }
 
@@ -94,5 +106,11 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
 
         //return result
         return result;
+    }
+
+    //OnRender empty virtual method
+    public virtual void OnRender()
+    {
+        //nothing for now
     }
 }
