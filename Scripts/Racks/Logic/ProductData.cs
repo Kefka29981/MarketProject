@@ -13,19 +13,17 @@ public class ProductData
     public float base_height;
     public float base_depth;
 
-    public bool canBePinned
-    {
-        //todo: rework later
-        get => (GetType() == Type.GetType("PinProductData"));
-    }
+    public bool canBePinned;
 
     public bool canBePlacedOnTop;
+    public int pinpointX;
+    public int pinpointY;
 
     public string tag;
     public string name;
 
     //constructor
-    public ProductData(int id, float base_width, float base_height, float base_depth, string name = "Default", string tag = "default", bool canBePlacedOnTop = false)
+    public ProductData(int id, float base_width, float base_height, float base_depth, bool canBePinned, string name = "Default", string tag = "default", bool canBePlacedOnTop = false, int pinpointX = 0, int pinpointY = 0)
     {
         this.id = id;
         this.base_width = base_width;
@@ -34,5 +32,8 @@ public class ProductData
         this.name = name;
         this.tag = tag;
         this.canBePlacedOnTop = canBePlacedOnTop;
+        this.canBePinned = canBePinned;
+        this.pinpointX = pinpointX;
+        this.pinpointY = pinpointY;
     }
 }

@@ -7,6 +7,8 @@ using UnityEngine;
 public static class PrefabStorage
 {
 
+    public static PrefabStorageMono PrefabStorageMono;
+
     //todo: change all fields references
     //prefabs
     public static GameObject productPrefab;
@@ -21,11 +23,20 @@ public static class PrefabStorage
     public static void LoadPrefabs()
     {
         //load prefabs
-        productPrefab = Resources.Load<GameObject>("Prefabs/Rack/Product");
-        rackPrefab = Resources.Load<GameObject>("Assets/Prefabs/Rack/Rack");
-        ghostPrefab = Resources.Load<GameObject>("Prefabs/Rack/Ghost");
-        spawnedProductPrefab = Resources.Load<GameObject>("Prefabs/Rack/SpawnedProduct");
-        filterPrefab = Resources.Load<GameObject>("Prefabs/Rack/FilterPrefab");
-        pinPoint = Resources.Load<GameObject>("Assets/Prefabs/Rack/PinPoint");
+        productPrefab = PrefabStorageMono.productPrefab;
+        rackPrefab = PrefabStorageMono.rackPrefab;
+        ghostPrefab = PrefabStorageMono.ghostPrefab;
+        spawnedProductPrefab = PrefabStorageMono.spawnedProductPrefab;
+        filterPrefab = PrefabStorageMono.filterPrefab;
+        pinPoint = PrefabStorageMono.pinPoint;
+        
+
+    }
+
+    static PrefabStorage()
+    {
+        //find prefab storage
+        PrefabStorageMono = GameObject.Find("SceneLoader").GetComponent<PrefabStorageMono>();
+        PrefabStorage.LoadPrefabs();
     }
 }

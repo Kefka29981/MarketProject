@@ -5,6 +5,8 @@ using UnityEngine;
 public class Pin
 {
     //products could be pinned here
+    //for now, contains only one product
+    public Product product;
 
     //depth
     public int depth;
@@ -23,5 +25,19 @@ public class Pin
     public void PinProduct(Product product)
     {
         //pin product
+        this.product = product;
+    }
+
+    //unpin product
+    public void UnpinProduct()
+    {
+        //unpin product
+        this.product = null;
+    }
+
+    //check if pin is empty
+    public bool IsEmpty()
+    {
+        return product == null;
     }
 }

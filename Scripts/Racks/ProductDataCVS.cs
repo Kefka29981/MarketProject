@@ -25,17 +25,8 @@ public static class ProductDataCVS
             string tag = split[7];
             bool canBePlacedOnTop = bool.Parse(split[9]);
             bool canBePinned = bool.Parse(split[8]);
-            if (canBePinned)
-            {
-                product_data.Add(new PinProductData(id, base_width, base_height, base_depth, pinX, pinY, name, tag, canBePlacedOnTop));
-                //debug product name can be pinned
-                UnityEngine.Debug.Log(name + " can be pinned");
-            }
-            else
-            {
-                product_data.Add(new ProductData(id, base_width, base_height, base_depth, name, tag, canBePlacedOnTop));
-            }
-            //create product data
+
+            product_data.Add(new ProductData(id, base_width, base_height, base_depth, canBePinned, name, tag, canBePlacedOnTop, pinX, pinY));
 
         }
     }

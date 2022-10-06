@@ -197,24 +197,19 @@ public class ProductPositioner : MonoBehaviour
     //if product product data pin point is true spawn pinpoint
     public void SpawnPinPoint()
     {
-        //log
-        Debug.Log("spawn pinpoint 1");
         //if product product data pin point is true spawn pinpoint
         if (productMono.product.productData.canBePinned)
         {
-            //log
-            Debug.Log("spawn pinpoint 2");
             //spawn pinpoint
             GameObject pinpoint = Instantiate(PrefabStorage.pinPoint);
             //set parent
             pinpoint.transform.SetParent(productMono.transform);
-            //get product data as pin product data
-            PinProductData pinProductData = productMono.product.productData as PinProductData;
             //set position
-            pinpoint.transform.localPosition = new Vector2(pinProductData.pinpoint_x, pinProductData.pinpoint_y);
+            pinpoint.transform.localPosition = new Vector2(productMono.product.productData.pinpointX, productMono.product.productData.pinpointY);
+            
         }
 
-        
+
     }
 }
 

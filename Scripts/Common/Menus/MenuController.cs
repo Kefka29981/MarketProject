@@ -80,7 +80,6 @@ public class MenuController : MonoBehaviour
     void Start()
     {
         //prefab strorage load
-        PrefabStorage.LoadPrefabs();
     }
 
 }
