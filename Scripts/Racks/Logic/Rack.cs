@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 
 [Serializable]
-public class Rack
+public class Rack : ProductHolder
 {
     //fields
     public int id;
@@ -25,7 +25,7 @@ public class Rack
     //globalProducts
     public List<Product> products;
 
-    //reserved globalProducts list (used to store old globalProducts when changing rack)
+    //reserved globalProducts list (used to store old globalProducts when changing holder)
     public List<Product> reservedProducts;
 
     //methods
@@ -62,8 +62,8 @@ public class Rack
 
 
 
-    //add productMono to rack
-    public void AddProduct(Product product)
+    //add productMono to holder
+    public override void AddProduct(Product product)
     {
         //set parameters of productMono
         product.SetActualParameters();
@@ -93,17 +93,17 @@ public class Rack
 
     }
 
-    public void RemoveProduct(Product product)
+    public override void RemoveProduct(Product product)
     {
         
         products.Remove(product);
 
-        //recreate rack
-        RecreateRack(products);
+        //recreate holder
+        RecreateHolder(products);
     }
 
-    //check if productMono can be added to rack
-    public bool CanAddProduct(Product product, bool containmentCheck = false)
+    //check if productMono can be added to holder
+    public override bool CanAddProduct(Product product, bool containmentCheck = false)
     {
         bool result = true;
 
@@ -119,31 +119,35 @@ public class Rack
             result = false;
         }
 
-        //compare height with rack height
+        //compare height with holder height
         if (product.height > this.height)
         {
             result = false;
         }
 
-        //compare depth with rack depth
+        //compare depth with holder depth
         if (product.depth > this.depth)
         {
             result = false;
         }
 
+        /*
+         *We use this bool variable to check if the productMono is already in the holder
+         *Otherwise, ghost could possibly block it's own real reflection
+        */
         //if containment check is enabled
         if (containmentCheck)
         {
             //debug log result
             Debug.Log("Containment check result: " + result);
-            //check if product already exists in rack
+            //check if product already exists in holder
             if (products.Contains(product))
             {
                 //if result was false before, send status update message log
                 if (!result)
                 {
                     //debug log
-                    Debug.Log("Product already exists in rack");
+                    Debug.Log("Product already exists in holder");
                 }
                 result = true;
             }
@@ -154,8 +158,8 @@ public class Rack
     }
 
 
-    //recreate rack with new list
-    public void RecreateRack(List<Product> new_products)
+    //recreate holder with new list
+    public void RecreateHolder(List<Product> new_products)
     {
         //copy new_products to new list (to avoid clearing original list)
         new_products = new List<Product>(new_products);
@@ -163,7 +167,7 @@ public class Rack
         //TODO: refactor this
         ProductEditorMenu menu = MenuHandler.menuController.GetCurrentMenuScript() as ProductEditorMenu;
 
-        //clear rack
+        //clear holder
         this.products = new List<Product>();
 
         //update leftest point
@@ -171,20 +175,20 @@ public class Rack
 
         foreach (Product product in new_products)
         {
-            //check if productMono can be added to rack
+            //check if productMono can be added to holder
             bool result = CanAddProduct(product);
 
             if (result)
             {
-                //add productMono to rack
+                //add productMono to holder
                 AddProduct(product);
             }
             else
             {
                 //print error message
-                //Debug.Log("Product " + product.productData.id + " can't be added to rack");
+                //Debug.Log("Product " + product.productData.id + " can't be added to holder");
                 //recreate with reserved globalProducts
-                RecreateRack(reservedProducts);
+                RecreateHolder(reservedProducts);
                 //set reserve as active
                 menu.SetReserveProductAsActive();
                 break;
@@ -194,30 +198,30 @@ public class Rack
 
     }
 
-    //recreate rack with same globalProducts
-    public void RecreateRack()
+    //recreate holder with same globalProducts
+    public override void RecreateHolder()
     {
-        RecreateRack(products);
+        RecreateHolder(products);
     }
 
     //add productMono on certain index
     public void AddProductOnIndex(Product product, int index, bool containmentCheck = false)
     {
-        //check if productMono can be added to rack
+        //check if productMono can be added to holder
         bool result = CanAddProduct(product, containmentCheck: containmentCheck);
 
         if (result)
         {
-            //add productMono to rack
+            //add productMono to holder
             products.Insert(index, product);
 
-            //recreate rack
-            RecreateRack(products);
+            //recreate holder
+            RecreateHolder(products);
         }
         else
         {
             //print error message
-            Debug.Log("Product " + product.productData.id + " can't be added to rack");
+            Debug.Log("Product " + product.productData.id + " can't be added to holder");
         }
     }
 
@@ -227,7 +231,7 @@ public class Rack
 
         if (CanAddProduct(product, containmentCheck: true))
         {
-            //remove product from rack
+            //remove product from holder
             RemoveProduct(product);
 
             //add product to new index
@@ -236,7 +240,7 @@ public class Rack
     }
 
     //recreate without ghosts
-    public void RecreateWithoutGhosts()
+    public override void RecreateWithoutGhosts()
     {
         //create new list
         List<Product> new_products = new List<Product>();
@@ -250,12 +254,12 @@ public class Rack
             }
         }
 
-        //recreate rack
-        RecreateRack(new_products);
+        //recreate holder
+        RecreateHolder(new_products);
     }
 
     //update reserved globalProducts
-    public void UpdateReservedProducts()
+    public override void UpdateReservedProducts()
     {
         //create new list
         reservedProducts = new List<Product>();

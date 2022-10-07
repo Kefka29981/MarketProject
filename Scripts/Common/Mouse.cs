@@ -44,4 +44,13 @@ public static class Mouse
         }
         return false;
     }
+
+    public static void MoveToMouse(Transform transform)
+    {
+        //get mouse position
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        //set transform position
+        transform.position = mousePosition;
+    }
 }

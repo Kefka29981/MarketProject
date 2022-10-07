@@ -11,7 +11,7 @@ using UnityEngine;
 //it always moves with the mouse
 
 
-//todo: make it so that the productMono is always in front of the rack
+//todo: make it so that the productMono is always in front of the holder
 
 public class ProductPositioner : MonoBehaviour
 {
@@ -21,18 +21,18 @@ public class ProductPositioner : MonoBehaviour
     public ProductMono productMono;
 
     //rackmono
-    public RackMono rackMono;
+    public AbstractProductHolderMono holderMono;
 
     /*/rackmono (last on mouse)
     public RackMono rackMonoLastMouseOver;
 
-    //bool to check if the productMono is in the rack
+    //bool to check if the productMono is in the holder
     public bool onRack = false;*/
 
     //timer coroutine
     IEnumerator Timer()
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.3f);
         //trigger alarm
         TimerAlarm();
         //restart timer
@@ -48,13 +48,13 @@ public class ProductPositioner : MonoBehaviour
         //on click
         if (Input.GetMouseButtonDown(0))
         {
-            //if mouse is over rack
-            if (rackMono != null)
+            //if mouse is over holder
+            if (holderMono != null)
             {
                 //make product not ghost
                 productMono.product.isGhost = false;
-                //RENDER//render old rack//get rackmono as IRender
-                IRender rackRender = rackMono as IRender;
+                //RENDER//render old holder//get rackmono as IRender
+                IRender rackRender = holderMono as IRender;
                 rackRender.Render();
                 //DESTROY EVERYTHING
                 Destroy(productMono.gameObject);
@@ -104,55 +104,80 @@ public class ProductPositioner : MonoBehaviour
 
     public void StatusCheck()
     {
-        //check if mouse is over rack
-        RackMono actualRack = Mouse.IsOverObject<RackMono>();
+        //check if mouse is over holder
+        AbstractProductHolderMono actualHolder = Mouse.IsOverObject<AbstractProductHolderMono>();
         
 
-        if (actualRack != rackMono && rackMono != null)
+        if (actualHolder != holderMono && holderMono != null)
         {
             OnOutOfRack();
         }
 
-        if (actualRack != null)
+        if (actualHolder != null)
         {
-            OnOverRack(actualRack);
+            OnOverRack(actualHolder);
         }
 
 
     }
 
-    private void OnOverRack(RackMono actualRack)
+    private void OnOverRack(AbstractProductHolderMono actualHolder)
     {
-        if (actualRack.rackData.CanAddProduct(productMono.product, containmentCheck: true))
+        if (actualHolder.holderType == HolderType.Rack)
         {
-            rackMono = actualRack;
-            //set rackmono as productMono mono parent
-            productMono.transform.SetParent(actualRack.transform);
-            //remove product from rack
-            actualRack.rackData.RemoveProduct(productMono.product);
-            //find closest index
-            int x_coor = (int)productMono.transform.localPosition.x;
-            int index = ClosestIndex(rackMono, x_coor);
-            //add productMono at index
-            actualRack.rackData.AddProductOnIndex(productMono.product, index);
+            RackMono actualRack = actualHolder as RackMono;
+            if (actualRack.rackData.CanAddProduct(productMono.product, containmentCheck: true))
+            {
+                holderMono = actualRack;
+                //set rackmono as productMono mono parent
+                productMono.transform.SetParent(actualRack.transform);
+                //remove product from holder
+                actualRack.rackData.RemoveProduct(productMono.product);
+                //find closest index
+                int x_coor = (int)productMono.transform.localPosition.x;
+                int index = ClosestIndex(actualRack, x_coor);
+                //add productMono at index
+                actualRack.rackData.AddProductOnIndex(productMono.product, index);
 
-            //render//render old rack//get rackmono as IRender
-            IRender rackRender = rackMono as IRender;
-            rackRender.Render();
+                //render//render old holder//get rackmono as IRender
+                IRender rackRender = holderMono as IRender;
+                rackRender.Render();
+            }
         }
+        //same for pin
+        if (actualHolder.holderType == HolderType.Pin)
+        {
+            PinsMono actualPin = actualHolder as PinsMono;
+            if (actualPin.pinData.CanAddProduct(productMono.product, containmentCheck: true))
+            {
+                holderMono = actualPin;
+                //set rackmono as productMono mono parent
+                productMono.transform.SetParent(actualPin.transform);
+                //remove product from holder
+                actualPin.pinData.RemoveProduct(productMono.product);
+            
+                //add productMono at index
+                actualPin.pinData.AddProduct(productMono.product);
+
+                //render//render old holder//get rackmono as IRender
+                IRender rackRender = holderMono as IRender;
+                rackRender.Render();
+            }
+        }
+
     }
 
     private void OnOutOfRack()
     {
-        //clear rack mono from ghosts
-        rackMono.rackData.RecreateWithoutGhosts();
+        //clear holder mono from ghosts
+        holderMono.productHolderData.RecreateWithoutGhosts();
 
         //get rackmono as IRender
-        IRender rackRender = rackMono as IRender;
+        IRender rackRender = holderMono as IRender;
         rackRender.Render();
 
         //set as null
-        rackMono = null;
+        holderMono = null;
     }
 
     public int ClosestIndex(RackMono rack, int x_coordinate)
@@ -197,24 +222,19 @@ public class ProductPositioner : MonoBehaviour
     //if product product data pin point is true spawn pinpoint
     public void SpawnPinPoint()
     {
-        //log
-        Debug.Log("spawn pinpoint 1");
         //if product product data pin point is true spawn pinpoint
         if (productMono.product.productData.canBePinned)
         {
-            //log
-            Debug.Log("spawn pinpoint 2");
             //spawn pinpoint
             GameObject pinpoint = Instantiate(PrefabStorage.pinPoint);
             //set parent
             pinpoint.transform.SetParent(productMono.transform);
-            //get product data as pin product data
-            PinProductData pinProductData = productMono.product.productData as PinProductData;
             //set position
-            pinpoint.transform.localPosition = new Vector2(pinProductData.pinpoint_x, pinProductData.pinpoint_y);
+            pinpoint.transform.localPosition = new Vector2(productMono.product.productData.pinpointX, productMono.product.productData.pinpointY);
+            
         }
 
-        
+
     }
 }
 

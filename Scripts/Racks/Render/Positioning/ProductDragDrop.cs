@@ -26,7 +26,7 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
     [SerializeField]
     private RectTransform rt;
 
-    public RackMono rack;
+    public AbstractProductHolderMono holder;
 
     public bool IsDragging { get => productMono.isDragging; set => productMono.isDragging = value; }
 
@@ -49,19 +49,19 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
 
     public void DragStart()
     {
-        //get rack
-        rack = productMono.rack;
+        //get holder
+        holder = productMono.rack;
 
         IsDragging = true;
 
         //set productMono as ghost
         productMono.product.isGhost = true;
 
-        //set rack as main
-        rack.SetAsMain();
+        //set holder as main
+        holder.SetAsMain();
 
-        //render rack//get rackmono as IRender
-        IRender rackRender = rack as IRender;
+        //render holder//get rackmono as IRender
+        IRender rackRender = holder as IRender;
         rackRender.Render();
 
         //start timer
@@ -79,11 +79,11 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
         //stop timer
         StopCoroutine(Timer());
 
-        //render rack//get rackmono as IRender
-        IRender rackRender = rack as IRender;
+        //render holder//get rackmono as IRender
+        IRender rackRender = holder as IRender;
         rackRender.Render();
 
-        //render old rack (reference in productMono)
+        //render old holder (reference in productMono)
         //get rackmono as IRender
         IRender oldRackRender = productMono.rack as IRender;
         oldRackRender.Render();
@@ -91,35 +91,26 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
 
     private void TimerAlarm()
     {
-        //TODO: check if productMono belongs to certain rack
-        if (rack == null)
+        //TODO: check if productMono belongs to certain holder
+        if (holder == null)
         {
-            //assign rack
-            rack = productMono.rack;
+            //assign holder
+            holder = productMono.rack as RackMono;
         }
 
-        //check rack
-        CheckRack();
+        //check holder
+        TryToSwitchProductHolder();
+        SetActualIndex();
 
-        int x_coor = (int)productMono.transform.localPosition.x;
-        int index = ClosestIndex(rack, x_coor);
-        //if closest index not equal to current ghost index on rack
-        if (rack.rackData.products.IndexOf(productMono.product) != index)
-        {
-            //reposition product
-            rack.rackData.RepositionProduct(productMono.product, index);
-
-            
-        }
 
         //TODO: render only if something changed
-        //render rack
+        //render holder
         //get rackmono as IRender
-        IRender rackRender = rack as IRender;
+        IRender rackRender = holder as IRender;
         rackRender.Render();
     }    
 
-    //Closest index on rack (if neigbours are 4 and 5, then closest index is 5)
+    //Closest index on holder (if neigbours are 4 and 5, then closest index is 5)
     public int ClosestIndex(RackMono rack, int x_coordinate)
     {
         int closestIndex = 0;
@@ -139,42 +130,67 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
         return closestIndex;
     }
 
-    //check if new rack should be applied
-    public void CheckRack()
+    //check if new holder should be applied
+    public void TryToSwitchProductHolder()
     {
-        //check if mouse is over rack
-        RackMono newRack = Mouse.IsOverObject<RackMono>();
+        //check if mouse is over holder
+        AbstractProductHolderMono newHolder = Mouse.IsOverObject<AbstractProductHolderMono>();
         
-        //if mouse is over rack
-        if (newRack != null)
+        //if mouse is over holder
+        if (newHolder != null)
         {
             //say hello
             //Debug.Log("Hello");
         }
 
-        //if not null and not equal to current rack
-        if (newRack != null && newRack != rack && newRack.rackData.CanAddProduct(productMono.product))
+        //if not null and not equal to current holder
+        if (newHolder != null && newHolder != holder && newHolder.productHolderData.CanAddProduct(productMono.product))
         {
-            //TODO: ddn't remove if can't add
-            //add productMono to new rack
-            newRack.rackData.AddProduct(productMono.product);
+            //TODO: didn't remove if can't add
+            //add productMono to new holder
+            newHolder.productHolderData.AddProduct(productMono.product);
 
-            //remove productMono from current rack
-            rack.rackData.products.Remove(productMono.product);
+            //remove productMono from current holder
+            holder.productHolderData.RemoveProduct(productMono.product);
 
-            //recreate old rack without ghosts
-            rack.rackData.RecreateWithoutGhosts();
+            //recreate old holder without ghosts
+            holder.productHolderData.RecreateWithoutGhosts();
 
-            //render old rack//get rackmono as IRender
-            IRender rackRender = rack as IRender;
+            //render old holder
+            IRender rackRender = holder as IRender;
             rackRender.Render();
 
-            //set new rack
-            rack = newRack;
+            //set new holder
+            holder = newHolder;
 
 
+            //set new parent for ProductMono
+            productMono.transform.SetParent(holder.transform, false);
+
+            //set productMono position vector 
+            Mouse.MoveToMouse(productMono.transform);
         }
     }
 
-    
+    public void SetActualIndex()
+    {
+        //if abstractproductholdermono is holder
+        if (holder.holderType == HolderType.Rack)
+        {
+            RackMono rack = holder as RackMono;
+            //get holder
+            int x_coor = (int)productMono.transform.localPosition.x;
+            int index = ClosestIndex(holder as RackMono, x_coor);
+            //if closest index not equal to current ghost index on holder
+            if (rack.rackData.products.IndexOf(productMono.product) != index)
+            {
+                //reposition product
+                rack.rackData.RepositionProduct(productMono.product, index);
+
+
+            }
+        }
+    }
+
+
 }

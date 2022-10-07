@@ -80,7 +80,6 @@ public class MenuController : MonoBehaviour
     void Start()
     {
         //prefab strorage load
-        PrefabStorage.LoadPrefabs();
     }
 
 }
@@ -95,7 +94,7 @@ public enum MenuID
     //filters
     Filters,
 
-    //rack editor
+    //holder editor
     RackEditor,
 
     //productMono list
