@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RackMono : MonoBehaviour, IRender
+public class RackMono : AbstractProductHolderMono, IRender
 {
     //fields
     public Rack rackData;
+
+    public override HolderType holderType => HolderType.Rack;
+    public override ProductHolder productHolderData { get => rackData; set => rackData = value as Rack; }
 
     //image
     public Image image;
@@ -18,7 +21,7 @@ public class RackMono : MonoBehaviour, IRender
 
     public bool smol;
 
-    public void Clear()
+    public override void Clear()
     {
         //clear all globalProducts
         foreach (Transform child in transform)
@@ -40,7 +43,7 @@ public class RackMono : MonoBehaviour, IRender
         }
     }
 
-    public void RenderDefault()
+    public override void RenderDefault()
     {
         //clear all globalProducts
         Clear();
@@ -48,7 +51,13 @@ public class RackMono : MonoBehaviour, IRender
         //set image width and height
         image.rectTransform.sizeDelta = new Vector2(rackData.width, rackData.height);
 
-        //draw all globalProducts in rack
+        //set colliders to rack size and position
+        Borders.offset = new Vector2(rackData.width / 2, rackData.height / 2);
+        Borders.size = new Vector2(rackData.width, rackData.height);
+        
+        
+
+        //draw all globalProducts in holder
         foreach (Product product in rackData.products)
         {
             if(!product.isGhost)
@@ -73,7 +82,7 @@ public class RackMono : MonoBehaviour, IRender
                 //todo: refactor later
                 ProductDragDrop pdd = productObject.GetComponent<ProductDragDrop>();
 
-                pdd.rack = this;
+                pdd.holder = this;
                 pdd.productMono = productMono;
 
                 //render productMono
@@ -102,7 +111,7 @@ public class RackMono : MonoBehaviour, IRender
     void Start()
     {
         if(smol){
-            //create new rack
+            //create new holder
             rackData = new Rack(500, 150, 100, 100, 100);
 
             //create globalProducts data
@@ -118,7 +127,7 @@ public class RackMono : MonoBehaviour, IRender
             //apply rotation to product2
             product2.rotation.ApplyRotation(product2);
 
-            //add globalProducts to rack
+            //add globalProducts to holder
             rackData.AddProduct(product1);
             rackData.AddProduct(product2);
             rackData.AddProduct(product3);
@@ -127,16 +136,16 @@ public class RackMono : MonoBehaviour, IRender
             product2.IncrementAmount(Axis.X, 2);
 
 
-            //recreate rack
-            rackData.RecreateRack();
+            //recreate holder
+            rackData.RecreateHolder();
 
-            //render rack//render old rack//get rackmono as IRender
+            //render holder//render old holder//get rackmono as IRender
             IRender rackRender = this as IRender;
             rackRender.Render();
         }
         else
         {
-            //create new rack
+            //create new holder
             rackData = new Rack(500, 100, 100, 100, 100);
 
             
@@ -150,7 +159,7 @@ public class RackMono : MonoBehaviour, IRender
             //apply rotation to product2
             product2.rotation.ApplyRotation(product2);
 
-            //add globalProducts to rack
+            //add globalProducts to holder
             rackData.AddProduct(product1);
             rackData.AddProduct(product2);
             rackData.AddProduct(product3);
@@ -159,17 +168,17 @@ public class RackMono : MonoBehaviour, IRender
             product2.IncrementAmount(Axis.X, 2);
 
 
-            //recreate rack
-            rackData.RecreateRack();
+            //recreate holder
+            rackData.RecreateHolder();
 
-            //render rack//render old rack//get rackmono as IRender
+            //render holder//render old holder//get rackmono as IRender
             IRender rackRender = this as IRender;
             rackRender.Render();
         }
     }
 
     //get on top in sibling hierarchy
-    public void SetAsMain()
+    public override void SetAsMain()
     {
         transform.SetAsLastSibling();
     }

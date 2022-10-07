@@ -34,16 +34,14 @@ public interface IDragDrop : IDragHandler, IBeginDragHandler, IEndDragHandler
         //get NotDragOverObject
         if (!RestrictionEnabled)
         {
-            //set productMono position vector 
-            rectTransform.position = (Vector2)Camera.main.ScreenToWorldPoint(mousePosition);
+            Mouse.MoveToMouse(rectTransform);
         }
         else
         {
             //check if mouse position is inside the restriction
             if(Mouse.IsOverObject<Collider2D>(Restriction))
             {
-                //set productMono position vector 
-                rectTransform.position = (Vector2)Camera.main.ScreenToWorldPoint(mousePosition);
+                Mouse.MoveToMouse(rectTransform);
             }
             else
             {

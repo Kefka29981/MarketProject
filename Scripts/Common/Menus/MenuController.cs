@@ -94,7 +94,7 @@ public enum MenuID
     //filters
     Filters,
 
-    //rack editor
+    //holder editor
     RackEditor,
 
     //productMono list

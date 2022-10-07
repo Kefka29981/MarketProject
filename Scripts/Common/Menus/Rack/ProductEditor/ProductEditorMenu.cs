@@ -16,7 +16,7 @@ public class ProductEditorMenu : MenuSelectable
     //reserve productMono to set as active
     public Product reserveProduct;
 
-    public RackMono rackMono;
+    public AbstractProductHolderMono productHolderMono;
 
     public int index;
 
@@ -38,7 +38,7 @@ public class ProductEditorMenu : MenuSelectable
 
             activeProduct = product;
 
-            rackMono = productBody.rack;
+            productHolderMono = productBody.rack;
 
             //update text
             textHolder.UpdateText();
@@ -57,13 +57,13 @@ public class ProductEditorMenu : MenuSelectable
 
         activeProduct.IncrementAmount(axisEnum, 1);
 
-        rackMono.rackData.RecreateRack();
+        productHolderMono.productHolderData.RecreateHolder();
 
 
         textHolder.UpdateText();
 
         //get rackmono as IRender
-        IRender rackRender = rackMono as IRender;
+        IRender rackRender = productHolderMono as IRender;
         rackRender.Render();
 
         
@@ -80,13 +80,13 @@ public class ProductEditorMenu : MenuSelectable
 
         activeProduct.IncrementAmount(axisEnum, -1);
 
-        rackMono.rackData.RecreateRack();
+        productHolderMono.productHolderData.RecreateHolder();
 
 
         textHolder.UpdateText();
 
         //get rackmono as IRender
-        IRender rackRender = rackMono as IRender;
+        IRender rackRender = productHolderMono as IRender;
         rackRender.Render();
     }
 
@@ -100,13 +100,13 @@ public class ProductEditorMenu : MenuSelectable
 
         activeProduct.rotation.RotateXY(activeProduct);
 
-        rackMono.rackData.RecreateRack();
+        productHolderMono.productHolderData.RecreateHolder();
 
 
         textHolder.UpdateText();
 
         //get rackmono as IRender
-        IRender rackRender = rackMono as IRender;
+        IRender rackRender = productHolderMono as IRender;
         rackRender.Render();
     }
 
@@ -119,24 +119,24 @@ public class ProductEditorMenu : MenuSelectable
 
         activeProduct.rotation.RotateYZ(activeProduct);
 
-        rackMono.rackData.RecreateRack();
+        productHolderMono.productHolderData.RecreateHolder();
 
 
         textHolder.UpdateText();
 
         //get rackmono as IRender
-        IRender rackRender = rackMono as IRender;
+        IRender rackRender = productHolderMono as IRender;
         rackRender.Render();
     }
 
     //delete active product
     public void DeleteActiveProduct()
     {
-        //remove from rack
-        rackMono.rackData.RemoveProduct(activeProduct);
+        //remove from holder
+        productHolderMono.productHolderData.RemoveProduct(activeProduct);
 
-        //render rack
-        rackMono.RenderDefault();
+        //render holder
+        productHolderMono.RenderDefault();
 
         //default menu
         MenuHandler.menuController.SetDefaultMenu();
