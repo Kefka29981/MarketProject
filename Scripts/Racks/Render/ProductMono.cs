@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ProductMono : MonoBehaviour, IRender, ISelectable
+public partial class ProductMono : MonoBehaviour, IRender, ISelectable
 {
     //fields
     public Product product;
@@ -45,18 +45,6 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
             //select this
             selectable.Select();
         }
-
-        //check if product can be pinned
-        if (product.productData.canBePinned)
-        {
-            //if default rotation and 1,1,x size
-            if (product.rotation.IsDefault() && product.amount[Axis.X] == 1 && product.amount[Axis.Y] == 1)
-            {
-                //if selected or 
-
-
-            }
-        }
     }
 
     public void SetSize(float width, float height)
@@ -79,6 +67,14 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
             //make text visible
             text.gameObject.SetActive(true);
         }
+
+        //check pinpoint status
+        CheckPinPointStatus();
+
+        //get product editor menu
+        ProductEditorMenu menu = MenuHandler.productEditorMenu;
+
+        menu.DeactivationCheck();
     }
 
 
@@ -90,6 +86,8 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
             //make text invisible
             text.gameObject.SetActive(false);
         }
+        
+        CheckPinPointStatus();
     }
 
     //unselect trigger
@@ -113,4 +111,6 @@ public class ProductMono : MonoBehaviour, IRender, ISelectable
     {
         //nothing for now
     }
+
+    
 }

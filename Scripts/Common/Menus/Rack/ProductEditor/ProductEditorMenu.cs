@@ -20,6 +20,8 @@ public class ProductEditorMenu : MenuSelectable
 
     public int index;
 
+    public List<GameObject> deactivationPinList;
+
 
     public override void GetData(object data)
     {
@@ -153,10 +155,31 @@ public class ProductEditorMenu : MenuSelectable
 
         //debug log
         Debug.Log("ProductEditorMenu: SetReserveProductAsActive: Active productMono set");
-
-        
-        
     }
 
-    
+    //check if deactivate
+    public void DeactivationCheck()
+    {
+        //check if current holder is pin
+        if (productHolderMono.holderType == HolderType.Pin)
+        {
+            //for each gameobject in deactivationPinList
+            foreach (GameObject go in deactivationPinList)
+            {
+                //deactivate
+                go.SetActive(false);
+            }
+        }
+        else
+        {
+            //for each gameobject in deactivationPinList
+            foreach (GameObject go in deactivationPinList)
+            {
+                //activate
+                go.SetActive(true);
+            }
+        }
+    }
+
+
 }
