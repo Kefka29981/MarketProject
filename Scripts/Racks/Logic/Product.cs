@@ -7,7 +7,7 @@ public class Product
     //fields
     public ProductData productData;
 
-    public Rack rack;
+    public ProductHolder holder;
 
     //is ghost?
     public bool isGhost;
@@ -62,7 +62,7 @@ public class Product
         this.amount = new Dictionary<Axis, int>(product.amount);
         this.totalAmount = product.totalAmount;
         this.isGhost = product.isGhost;
-        this.rack = product.rack;
+        this.holder = product.holder;
     }
 
 

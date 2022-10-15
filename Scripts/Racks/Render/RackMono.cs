@@ -51,7 +51,7 @@ public class RackMono : AbstractProductHolderMono, IRender
         //set image width and height
         image.rectTransform.sizeDelta = new Vector2(rackData.width, rackData.height);
 
-        //set colliders to rack size and position
+        //set colliders to holder size and position
         Borders.offset = new Vector2(rackData.width / 2, rackData.height / 2);
         Borders.size = new Vector2(rackData.width, rackData.height);
         
@@ -77,7 +77,7 @@ public class RackMono : AbstractProductHolderMono, IRender
                 //set productMono reference
                 ProductMono productMono = productObject.GetComponent<ProductMono>();
                 productMono.product = product;
-                productMono.rack = this;
+                productMono.holder = this;
 
                 //todo: refactor later
                 ProductDragDrop pdd = productObject.GetComponent<ProductDragDrop>();
@@ -101,7 +101,7 @@ public class RackMono : AbstractProductHolderMono, IRender
 
                 ProductMono ghostMono = ghostObject.GetComponent<ProductMono>();
                 ghostMono.product = product;
-                ghostMono.rack = this;
+                ghostMono.holder = this;
             }
         }
 
