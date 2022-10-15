@@ -83,7 +83,7 @@ public class ProductPositioner : MonoBehaviour
         productMono.isDragging = true;
 
         //spawn pinpoint
-        SpawnPinPoint();
+        productMono.SpawnPinPoint();
 
         //start coroutine
         StartCoroutine(Timer());
@@ -217,24 +217,6 @@ public class ProductPositioner : MonoBehaviour
     public void TimerAlarm()
     {
         StatusCheck();
-    }
-
-    //if product product data pin point is true spawn pinpoint
-    public void SpawnPinPoint()
-    {
-        //if product product data pin point is true spawn pinpoint
-        if (productMono.product.productData.canBePinned)
-        {
-            //spawn pinpoint
-            GameObject pinpoint = Instantiate(PrefabStorage.pinPoint);
-            //set parent
-            pinpoint.transform.SetParent(productMono.transform);
-            //set position
-            pinpoint.transform.localPosition = new Vector2(productMono.product.productData.pinpointX, productMono.product.productData.pinpointY);
-            
-        }
-
-
     }
 }
 
