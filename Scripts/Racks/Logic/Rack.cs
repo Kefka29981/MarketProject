@@ -25,8 +25,6 @@ public class Rack : ProductHolder
     //globalProducts
     public List<Product> products;
 
-    //reserved globalProducts list (used to store old globalProducts when changing holder)
-    public List<Product> reservedProducts;
 
     //methods
     public Rack(float width, float height, float depth, float x, float y)
@@ -86,7 +84,7 @@ public class Rack : ProductHolder
             //update z amount of productMono (check how many times it can be stacked in depth)
             //productMono.amount[Axis.Z] = (int)(depth / productMono.depth);
 
-            product.rack = this;
+            product.holder = this;
 
         }
 

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class ProductHolder
 {
+    //reserved globalProducts list (used to store old globalProducts when changing holder)
+    public List<Product> reservedProducts;
+
     //contains logic reflection of the product holder mono
     //methdos
     public abstract void AddProduct(Product product);

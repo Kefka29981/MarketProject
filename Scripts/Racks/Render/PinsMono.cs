@@ -37,7 +37,7 @@ public class PinsMono : AbstractProductHolderMono
                     //set productMono reference
                     ProductMono productMono = productObject.GetComponent<ProductMono>();
                     productMono.product = pinData.product;
-                    productMono.rack = this;
+                    productMono.holder = this;
 
                     //todo: refactor later
                     ProductDragDrop pdd = productObject.GetComponent<ProductDragDrop>();
@@ -61,7 +61,7 @@ public class PinsMono : AbstractProductHolderMono
 
                 ProductMono ghostMono = ghostObject.GetComponent<ProductMono>();
                 ghostMono.product = pinData.product;
-                ghostMono.rack = this;
+                ghostMono.holder = this;
             }
 
         }
@@ -105,7 +105,7 @@ public class PinsMono : AbstractProductHolderMono
     void Start()
     {
         //pin data creation
-        pinData = new Pin(110);
+        pinData = new Pin(3000);
     }
 
 }

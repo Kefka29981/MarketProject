@@ -50,7 +50,7 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
     public void DragStart()
     {
         //get holder
-        holder = productMono.rack;
+        holder = productMono.holder;
 
         IsDragging = true;
 
@@ -85,7 +85,7 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
 
         //render old holder (reference in productMono)
         //get rackmono as IRender
-        IRender oldRackRender = productMono.rack as IRender;
+        IRender oldRackRender = productMono.holder as IRender;
         oldRackRender.Render();
     }
 
@@ -95,7 +95,7 @@ public class ProductDragDrop : MonoBehaviour, IDragDrop
         if (holder == null)
         {
             //assign holder
-            holder = productMono.rack as RackMono;
+            holder = productMono.holder as RackMono;
         }
 
         //check holder

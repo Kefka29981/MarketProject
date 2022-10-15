@@ -40,7 +40,7 @@ public class ProductEditorMenu : MenuSelectable
 
             activeProduct = product;
 
-            productHolderMono = productBody.rack;
+            productHolderMono = productBody.holder;
 
             //update text
             textHolder.UpdateText();
@@ -51,7 +51,7 @@ public class ProductEditorMenu : MenuSelectable
     public void IncreaseSize(string axis)
     {
         //update reserves
-        activeProduct.rack.UpdateReservedProducts();
+        activeProduct.holder.UpdateReservedProducts();
         
         //string to axis
         Axis axisEnum = AxisExtensions.ToAxis(axis);
@@ -75,7 +75,7 @@ public class ProductEditorMenu : MenuSelectable
     public void DecreaseSize(string axis)
     {
         //update reserves
-        activeProduct.rack.UpdateReservedProducts();
+        activeProduct.holder.UpdateReservedProducts();
         
         //string to axis
         Axis axisEnum = AxisExtensions.ToAxis(axis);
@@ -97,7 +97,7 @@ public class ProductEditorMenu : MenuSelectable
     {
 
         //update reserves
-        activeProduct.rack.UpdateReservedProducts();
+        activeProduct.holder.UpdateReservedProducts();
 
 
         activeProduct.rotation.RotateXY(activeProduct);
@@ -116,7 +116,7 @@ public class ProductEditorMenu : MenuSelectable
     public void RotateActiveProductYZ()
     {
         //update reserves
-        activeProduct.rack.UpdateReservedProducts();
+        activeProduct.holder.UpdateReservedProducts();
 
 
         activeProduct.rotation.RotateYZ(activeProduct);

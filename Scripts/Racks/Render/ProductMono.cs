@@ -15,7 +15,7 @@ public partial class ProductMono : MonoBehaviour, IRender, ISelectable
     public Image image;
 
     //holder it placed on
-    public AbstractProductHolderMono rack;
+    public AbstractProductHolderMono holder;
 
     public TextMeshProUGUI text;
 
