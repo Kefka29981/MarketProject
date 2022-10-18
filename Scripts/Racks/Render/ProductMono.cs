@@ -21,6 +21,11 @@ public partial class ProductMono : MonoBehaviour, IRender, ISelectable
 
     public bool isDragging = false;
 
+    public bool isSpawned
+    {
+        get => GetComponent<ProductPositioner>() != null;
+    }
+
     public void Clear()
     {
         //nothing for now
@@ -37,7 +42,7 @@ public partial class ProductMono : MonoBehaviour, IRender, ISelectable
         text.text = size + "\n" + amount + "\n" + rotation;
 
         //if product is equal to active product from menu, select it
-        if (product == MenuHandler.productEditorMenu.activeProduct && !product.isGhost)
+        if (product == MenuHandler.ProductEditorMenu.activeProduct && !product.isGhost)
         {
             //cast this as ISelectable
             ISelectable selectable = this as ISelectable;
@@ -54,13 +59,16 @@ public partial class ProductMono : MonoBehaviour, IRender, ISelectable
     }
 
     //ISelectable methods and properties
-    public MenuID menuID => MenuID.ProductEditor;
+    public MenuID menuID => MenuToCall();
     
     public bool isSelected { get; set; }
     
 
     void ISelectable.OnSelect()
     {
+        //if not Spawned
+        if(!isSpawned)
+        {
         //if not ghost
         if (!product.isGhost)
         {
@@ -72,9 +80,13 @@ public partial class ProductMono : MonoBehaviour, IRender, ISelectable
         CheckPinPointStatus();
 
         //get product editor menu
-        ProductEditorMenu menu = MenuHandler.productEditorMenu;
+        ProductEditorMenu menu = MenuHandler.ProductEditorMenu;
+        menu.MenuElementsDeactivationCheck();
 
-        menu.DeactivationCheck();
+            menu.productMono = this;
+        }
+        
+        
     }
 
 
@@ -110,6 +122,19 @@ public partial class ProductMono : MonoBehaviour, IRender, ISelectable
     public virtual void OnRender()
     {
         //nothing for now
+    }
+
+    private MenuID MenuToCall()
+    {
+        if(!isSpawned)
+        {
+            return MenuID.ProductEditor;
+        }
+        else
+        {
+            return MenuID.SpawnedProductEditor;
+        }
+
     }
 
     

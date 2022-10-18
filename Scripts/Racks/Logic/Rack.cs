@@ -88,7 +88,6 @@ public class Rack : ProductHolder
 
         }
 
-
     }
 
     public override void RemoveProduct(Product product)

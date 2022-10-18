@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +21,10 @@ public class ProductEditorMenu : MenuSelectable
 
     public int index;
 
+    //list to menu elements to deactivate when product is pinned
     public List<GameObject> deactivationPinList;
+
+    public ProductMono productMono;
 
 
     public override void GetData(object data)
@@ -44,104 +48,100 @@ public class ProductEditorMenu : MenuSelectable
 
             //update text
             textHolder.UpdateText();
-
         }
     }
 
     public void IncreaseSize(string axis)
     {
         //update reserves
-        activeProduct.holder.UpdateReservedProducts();
-        
-        //string to axis
-        Axis axisEnum = AxisExtensions.ToAxis(axis);
+            activeProduct.holder.UpdateReservedProducts();
+
+            //string to axis
+            Axis axisEnum = AxisExtensions.ToAxis(axis);
 
 
-        activeProduct.IncrementAmount(axisEnum, 1);
+            activeProduct.IncrementAmount(axisEnum, 1);
 
-        productHolderMono.productHolderData.RecreateHolder();
+            productHolderMono.productHolderData.RecreateHolder();
 
 
-        textHolder.UpdateText();
+            textHolder.UpdateText();
 
-        //get rackmono as IRender
-        IRender rackRender = productHolderMono as IRender;
-        rackRender.Render();
-
-        
-
+            //get rackmono as IRender
+            IRender rackRender = productHolderMono as IRender;
+            rackRender.Render();
     }
 
     public void DecreaseSize(string axis)
     {
         //update reserves
-        activeProduct.holder.UpdateReservedProducts();
-        
-        //string to axis
-        Axis axisEnum = AxisExtensions.ToAxis(axis);
+            activeProduct.holder.UpdateReservedProducts();
 
-        activeProduct.IncrementAmount(axisEnum, -1);
+            //string to axis
+            Axis axisEnum = AxisExtensions.ToAxis(axis);
 
-        productHolderMono.productHolderData.RecreateHolder();
+            activeProduct.IncrementAmount(axisEnum, -1);
+
+            productHolderMono.productHolderData.RecreateHolder();
 
 
-        textHolder.UpdateText();
+            textHolder.UpdateText();
 
-        //get rackmono as IRender
-        IRender rackRender = productHolderMono as IRender;
-        rackRender.Render();
+            //get rackmono as IRender
+            IRender rackRender = productHolderMono as IRender;
+            rackRender.Render();
     }
 
     //rotate active productMono XY by 90 degrees
     public void RotateActiveProductXY()
     {
-
         //update reserves
-        activeProduct.holder.UpdateReservedProducts();
+            activeProduct.holder.UpdateReservedProducts();
 
 
-        activeProduct.rotation.RotateXY(activeProduct);
+            activeProduct.rotation.RotateXY(activeProduct);
 
-        productHolderMono.productHolderData.RecreateHolder();
+            productHolderMono.productHolderData.RecreateHolder();
 
 
-        textHolder.UpdateText();
+            textHolder.UpdateText();
 
-        //get rackmono as IRender
-        IRender rackRender = productHolderMono as IRender;
-        rackRender.Render();
+            //get rackmono as IRender
+            IRender rackRender = productHolderMono as IRender;
+            rackRender.Render();
+
     }
 
     //rotate active productMono YZ by 90 degrees
     public void RotateActiveProductYZ()
     {
         //update reserves
-        activeProduct.holder.UpdateReservedProducts();
+            activeProduct.holder.UpdateReservedProducts();
 
 
-        activeProduct.rotation.RotateYZ(activeProduct);
+            activeProduct.rotation.RotateYZ(activeProduct);
 
-        productHolderMono.productHolderData.RecreateHolder();
+            productHolderMono.productHolderData.RecreateHolder();
 
 
-        textHolder.UpdateText();
+            textHolder.UpdateText();
 
-        //get rackmono as IRender
-        IRender rackRender = productHolderMono as IRender;
-        rackRender.Render();
+            //get rackmono as IRender
+            IRender rackRender = productHolderMono as IRender;
+            rackRender.Render();
     }
 
     //delete active product
     public void DeleteActiveProduct()
     {
         //remove from holder
-        productHolderMono.productHolderData.RemoveProduct(activeProduct);
+            productHolderMono.productHolderData.RemoveProduct(activeProduct);
 
-        //render holder
-        productHolderMono.RenderDefault();
+            //render holder
+            productHolderMono.RenderDefault();
 
-        //default menu
-        MenuHandler.menuController.SetDefaultMenu();
+            //default menu
+            MenuHandler.menuController.SetDefaultMenu();
     }
 
     //set reserve productMono as active
@@ -158,7 +158,7 @@ public class ProductEditorMenu : MenuSelectable
     }
 
     //check if deactivate
-    public void DeactivationCheck()
+    public void MenuElementsDeactivationCheck()
     {
         //check if current holder is pin
         if (productHolderMono.holderType == HolderType.Pin)
@@ -181,5 +181,6 @@ public class ProductEditorMenu : MenuSelectable
         }
     }
 
-
 }
+
+

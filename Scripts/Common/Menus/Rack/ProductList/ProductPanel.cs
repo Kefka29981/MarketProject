@@ -55,8 +55,16 @@ public class ProductPanel : MonoBehaviour
         //set size
         productMono.GetComponent<RectTransform>().sizeDelta = new Vector2(product.width, product.height);
 
-        //get menu controller and set active product to this in product editor menu
-        MenuHandler.productEditorMenu.activeProduct = product;
+        ISelectable select = productMono as ISelectable;
+        select.Select();
+        SpawnedProductEditorMenu menu = GameObject.Find("SpawnedProductEditor").GetComponent<SpawnedProductEditorMenu>();
+        menu.productObject = spawnedProduct;
+
+        //find product editor menu with menu handler
+        ProductEditorMenu productEditorMenu = MenuHandler.ProductEditorMenu;
+        //find selected productmono
+        ISelectable selected = productEditorMenu.productMono;
+        selected.Unselect();
     }
 
     //find all objects with component ProductPositioner

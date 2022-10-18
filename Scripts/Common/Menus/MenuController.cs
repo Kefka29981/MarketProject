@@ -98,8 +98,8 @@ public enum MenuID
     RackEditor,
 
     //productMono list
-    ProductList
-
+    ProductList,
+    SpawnedProductEditor
 }
 
 public static class MenuHandler
@@ -109,7 +109,7 @@ public static class MenuHandler
 
     //all menu classes reference
     public static FilterMenu filterMenu;
-    public static ProductEditorMenu productEditorMenu;
+    public static ProductEditorMenu ProductEditorMenu;
     public static ProductListMenu productListMenu;
 
     //default ID
@@ -177,7 +177,7 @@ public static class MenuHandler
         //get all menu classes reference
         filterMenu = GameObject.Find("FilterMenu").GetComponent<FilterMenu>();
         
-        productEditorMenu = GameObject.Find("ProductEditor").GetComponent<ProductEditorMenu>();
+        ProductEditorMenu = GameObject.Find("ProductEditor").GetComponent<ProductEditorMenu>();
 
         productListMenu = GameObject.Find("ProductList").GetComponent<ProductListMenu>();
     }

@@ -46,7 +46,7 @@ public partial class ProductMono : MonoBehaviour, IRender, ISelectable
             {
                 //if selected spawn pin
                 //todo: getcomponent without using getcomponent
-                if (product == MenuHandler.productEditorMenu.activeProduct && !product.isGhost && MenuHandler.productEditorMenu.GetComponent<CanvasGroup>().alpha == 1)
+                if (product == MenuHandler.ProductEditorMenu.activeProduct && !product.isGhost && MenuHandler.ProductEditorMenu.GetComponent<CanvasGroup>().alpha == 1)
                 {
                     result = true;
                 }
