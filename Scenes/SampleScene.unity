@@ -630,8 +630,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProductEditorMenu, Assembly-CSharp
+      - m_Target: {fileID: 604851902}
+        m_TargetAssemblyTypeName: SpawnedProductEditorMenu, Assembly-CSharp
         m_MethodName: DecreaseSize
         m_Mode: 5
         m_Arguments:
@@ -1165,8 +1165,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProductEditorMenu, Assembly-CSharp
+      - m_Target: {fileID: 604851902}
+        m_TargetAssemblyTypeName: SpawnedProductEditorMenu, Assembly-CSharp
         m_MethodName: RotateActiveProductXY
         m_Mode: 1
         m_Arguments:
@@ -3934,6 +3934,7 @@ MonoBehaviour:
   button: {fileID: 0}
   text: {fileID: 0}
   index: 0
+  productObject: {fileID: 0}
 --- !u!1 &605203701
 GameObject:
   m_ObjectHideFlags: 0
@@ -4336,8 +4337,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProductEditorMenu, Assembly-CSharp
+      - m_Target: {fileID: 604851902}
+        m_TargetAssemblyTypeName: SpawnedProductEditorMenu, Assembly-CSharp
         m_MethodName: RotateActiveProductYZ
         m_Mode: 1
         m_Arguments:
@@ -4573,8 +4574,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProductEditorMenu, Assembly-CSharp
+      - m_Target: {fileID: 604851902}
+        m_TargetAssemblyTypeName: SpawnedProductEditorMenu, Assembly-CSharp
         m_MethodName: IncreaseSize
         m_Mode: 5
         m_Arguments:
@@ -5016,8 +5017,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProductEditorMenu, Assembly-CSharp
+      - m_Target: {fileID: 604851902}
+        m_TargetAssemblyTypeName: SpawnedProductEditorMenu, Assembly-CSharp
         m_MethodName: IncreaseSize
         m_Mode: 5
         m_Arguments:
@@ -5441,8 +5442,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProductEditorMenu, Assembly-CSharp
+      - m_Target: {fileID: 604851902}
+        m_TargetAssemblyTypeName: SpawnedProductEditorMenu, Assembly-CSharp
         m_MethodName: DecreaseSize
         m_Mode: 5
         m_Arguments:
@@ -5693,6 +5694,7 @@ MonoBehaviour:
   - {fileID: 1466243659}
   - {fileID: 1036500314}
   - {fileID: 287011852}
+  productMono: {fileID: 0}
 --- !u!225 &936841416
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -7814,8 +7816,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProductEditorMenu, Assembly-CSharp
+      - m_Target: {fileID: 604851902}
+        m_TargetAssemblyTypeName: SpawnedProductEditorMenu, Assembly-CSharp
         m_MethodName: DeleteActiveProduct
         m_Mode: 1
         m_Arguments:
@@ -7984,8 +7986,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProductEditorMenu, Assembly-CSharp
+      - m_Target: {fileID: 604851902}
+        m_TargetAssemblyTypeName: SpawnedProductEditorMenu, Assembly-CSharp
         m_MethodName: DecreaseSize
         m_Mode: 5
         m_Arguments:
@@ -8255,8 +8257,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProductEditorMenu, Assembly-CSharp
+      - m_Target: {fileID: 604851902}
+        m_TargetAssemblyTypeName: SpawnedProductEditorMenu, Assembly-CSharp
         m_MethodName: RotateActiveProductXY
         m_Mode: 1
         m_Arguments:
@@ -8953,8 +8955,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProductEditorMenu, Assembly-CSharp
+      - m_Target: {fileID: 604851902}
+        m_TargetAssemblyTypeName: SpawnedProductEditorMenu, Assembly-CSharp
         m_MethodName: RotateActiveProductYZ
         m_Mode: 1
         m_Arguments:
@@ -9246,8 +9248,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProductEditorMenu, Assembly-CSharp
+      - m_Target: {fileID: 604851902}
+        m_TargetAssemblyTypeName: SpawnedProductEditorMenu, Assembly-CSharp
         m_MethodName: IncreaseSize
         m_Mode: 5
         m_Arguments:
