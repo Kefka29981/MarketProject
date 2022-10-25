@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class MenuController : MonoBehaviour
 {
     //current menu
@@ -98,8 +99,13 @@ public enum MenuID
     RackEditor,
 
     //productMono list
-    ProductList,
-    SpawnedProductEditor
+    ProductList
+}
+
+public enum refactoredMenuID
+{
+    ShelfEditor_rack,
+    ShelfEditor_store,
 }
 
 public static class MenuHandler
@@ -109,7 +115,7 @@ public static class MenuHandler
 
     //all menu classes reference
     public static FilterMenu filterMenu;
-    public static ProductEditorMenu ProductEditorMenu;
+    public static ProductEditorMenu productEditorMenu;
     public static ProductListMenu productListMenu;
 
     //default ID
@@ -136,7 +142,7 @@ public static class MenuHandler
         selectedObj = obj;
     }*/
 
-    //unselect selected object and activate global menu
+    /*/unselect selected object and activate global menu
     public static void UnselectCurrentObject()
     {
         ///<summary>
@@ -177,8 +183,9 @@ public static class MenuHandler
         //get all menu classes reference
         filterMenu = GameObject.Find("FilterMenu").GetComponent<FilterMenu>();
         
-        ProductEditorMenu = GameObject.Find("ProductEditor").GetComponent<ProductEditorMenu>();
+        productEditorMenu = GameObject.Find("ProductEditor").GetComponent<ProductEditorMenu>();
 
         productListMenu = GameObject.Find("ProductList").GetComponent<ProductListMenu>();
     }
 }
+*/

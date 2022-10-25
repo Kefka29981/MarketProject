@@ -2,20 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuSelectable : MenuScript
+public abstract class MenuSelectable : MenuScript
 {
     //fields
     //selected ISelectable
-    public ISelectable selected;
+    public ISelectable selectedObject;
 
     //methods
     public virtual void Unselect()
     {
-        //override
+        //when unselecting, show default menu
     }
 
     
     public virtual void CouldBeSelected()
+    {
+        //override
+    }
+
+    public virtual void SetCurrentObject(ISelectable newObject)
     {
         //override
     }

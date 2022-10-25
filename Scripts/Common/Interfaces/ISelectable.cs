@@ -12,15 +12,14 @@ public interface ISelectable: IPointerDownHandler
 
     void Select()
     {
-        //get menu controller
-        MenuController menuController = MenuHandler.menuController;
-        //set selected object in MenuSelectable
-        MenuSelectable menuSelectable = menuController.GetCurrentMenuScript() as MenuSelectable;
+        
         
         //unselect old if possible
         try
         {
-            menuSelectable.selected.Unselect();
+            //set selected object in MenuSelectable
+            MenuSelectable menuSelectable = MenuManager.instance.GetCurrentMenu() as MenuSelectable;
+            menuSelectable.selectedObject.Unselect();
         }
         catch (System.Exception)
         {
@@ -34,19 +33,12 @@ public interface ISelectable: IPointerDownHandler
 
         //debug type of this
         Debug.Log("Selected: " + GetType());
+
+        //set selected object in MenuSelectable
+        MenuManager.instance.GetMenuSelectable(menuID).SetCurrentObject(this);
         
-        menuController.SetCurrentMenu(menuID, this);
+        MenuManager.instance.CallMenu(menuID);
 
-
-        try
-        {
-            //set selected object
-            menuSelectable.selected = this;
-        }
-        catch (System.Exception)
-        {
-            Debug.Log("MenuSelectable not found");
-        }
 
         //call OnSelect
         OnSelect();
@@ -67,8 +59,7 @@ public interface ISelectable: IPointerDownHandler
     void Unselect()
     {
         //call default menu
-        MenuController menuController = MenuHandler.menuController;
-        menuController.SetCurrentMenu(MenuHandler.defaultID, null);
+        MenuManager.instance.SetDefaultMenu();
         //set IsSelected to false
         isSelected = false;
         //stop coroutine

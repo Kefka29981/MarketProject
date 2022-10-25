@@ -6,136 +6,120 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public partial class ProductMono : MonoBehaviour, IRender, ISelectable
+namespace RackScene
 {
-    //fields
-    public Product product;
-
-    //image
-    public Image image;
-
-    //holder it placed on
-    public AbstractProductHolderMono holder;
-
-    public TextMeshProUGUI text;
-
-    public bool isDragging = false;
-
-    public bool isSpawned
+    public partial class ProductMono : MonoBehaviour, IRender, ISelectable
     {
-        get => GetComponent<ProductPositioner>() != null;
-    }
-
-    public void Clear()
-    {
-        //nothing for now
-    }
-
-    public void RenderDefault()
-    {
-        //update text
-        string size = "Size: " + product.width + " X, " + product.height + " Y, " + product.depth + " Z";
-        string amount = "Amount: " + product.amount[Axis.X] + " X, " + product.amount[Axis.Y] + " Y, " + product.amount[Axis.Z] + " Z";
-        string rotation = "Rotation: " + product.rotation.rotations[Axis.X] + " X, " + product.rotation.rotations[Axis.Y] + " Y, " + product.rotation.rotations[Axis.Z] + " Z";
-
-
-        text.text = size + "\n" + amount + "\n" + rotation;
-
-        //if product is equal to active product from menu, select it
-        if (product == MenuHandler.ProductEditorMenu.activeProduct && !product.isGhost)
+        //static reference to menu 
+        public ProductEditorMenu editorMenu
         {
-            //cast this as ISelectable
-            ISelectable selectable = this as ISelectable;
-
-            //select this
-            selectable.Select();
-        }
-    }
-
-    public void SetSize(float width, float height)
-    {
-        //set size
-        image.rectTransform.sizeDelta = new Vector2(width, height);
-    }
-
-    //ISelectable methods and properties
-    public MenuID menuID => MenuToCall();
-    
-    public bool isSelected { get; set; }
-    
-
-    void ISelectable.OnSelect()
-    {
-        //if not Spawned
-        if(!isSpawned)
-        {
-        //if not ghost
-        if (!product.isGhost)
-        {
-            //make text visible
-            text.gameObject.SetActive(true);
+            get => MenuManager.instance.GetMenu(MenuID.ProductEditor) as ProductEditorMenu;
         }
 
-        //check pinpoint status
-        CheckPinPointStatus();
+        //fields
+        public Product product;
 
-        //get product editor menu
-        ProductEditorMenu menu = MenuHandler.ProductEditorMenu;
-        menu.MenuElementsDeactivationCheck();
+        //image
+        public Image image;
 
-            menu.productMono = this;
-        }
-        
-        
-    }
+        //holder it placed on
+        public AbstractProductHolderMono holder;
 
+        public TextMeshProUGUI text;
 
-    void ISelectable.OnUnselect()
-    {
-        //if text not null
-        if (text != null)
+        public bool isDragging = false;
+
+        public void Clear()
         {
-            //make text invisible
-            text.gameObject.SetActive(false);
+            //nothing for now
         }
-        
-        CheckPinPointStatus();
-    }
 
-    //unselect trigger
-    public bool UnselectTrigger()
-    {
-        //result
-        bool result = false;
-
-        //when right click
-        if (Input.GetMouseButtonDown(1))
+        public void RenderDefault()
         {
-            result = true;
+            //update text
+            string size = "Size: " + product.width + " X, " + product.height + " Y, " + product.depth + " Z";
+            string amount = "Amount: " + product.amount[Axis.X] + " X, " + product.amount[Axis.Y] + " Y, " +
+                            product.amount[Axis.Z] + " Z";
+            string rotation = "Rotation: " + product.rotation.rotations[Axis.X] + " X, " +
+                              product.rotation.rotations[Axis.Y] + " Y, " + product.rotation.rotations[Axis.Z] + " Z";
+
+
+            text.text = size + "\n" + amount + "\n" + rotation;
+
+            //if product is equal to active product from menu, select it
+            if (product == editorMenu.activeProduct && !product.isGhost)
+            {
+                //cast this as ISelectable
+                ISelectable selectable = this as ISelectable;
+
+                //select this
+                selectable.Select();
+            }
         }
 
-        //return result
-        return result;
-    }
-
-    //OnRender empty virtual method
-    public virtual void OnRender()
-    {
-        //nothing for now
-    }
-
-    private MenuID MenuToCall()
-    {
-        if(!isSpawned)
+        public void SetSize(float width, float height)
         {
-            return MenuID.ProductEditor;
+            //set size
+            image.rectTransform.sizeDelta = new Vector2(width, height);
         }
-        else
+
+        //ISelectable methods and properties
+        public MenuID menuID => MenuID.ProductEditor;
+
+        public bool isSelected { get; set; }
+
+
+        void ISelectable.OnSelect()
         {
-            return MenuID.SpawnedProductEditor;
+            //if not ghost
+            if (!product.isGhost)
+            {
+                //make text visible
+                text.gameObject.SetActive(true);
+            }
+
+            //check pinpoint status
+            CheckPinPointStatus();
+
+
+            editorMenu.DeactivationCheck();
         }
+
+
+        void ISelectable.OnUnselect()
+        {
+            //if text not null
+            if (text != null)
+            {
+                //make text invisible
+                text.gameObject.SetActive(false);
+            }
+
+            CheckPinPointStatus();
+        }
+
+        //unselect trigger
+        public bool UnselectTrigger()
+        {
+            //result
+            bool result = false;
+
+            //when right click
+            if (Input.GetMouseButtonDown(1))
+            {
+                result = true;
+            }
+
+            //return result
+            return result;
+        }
+
+        //OnRender empty virtual method
+        public virtual void OnRender()
+        {
+            //nothing for now
+        }
+
 
     }
-
-    
 }

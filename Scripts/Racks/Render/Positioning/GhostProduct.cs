@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GhostProduct : ProductMono
+namespace RackScene
 {
-    //fields
-    public ProductMono productMono;
+    public class GhostProduct : ProductMono
+    {
+        //fields
+        public ProductMono productMono;
 
-    public int index;
+        public int index;
+    }
 }
+
