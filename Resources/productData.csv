@@ -8,5 +8,5 @@
 7,50,75,50,0,0,VinaSvitu,wine,false,false 
 8,60,75,50,0,0,Beileys,liquor,false,false 
 9,50,50,50,0,0,Fanta,drinks,false,false 
-10,75,75,35,10,30,Chipsters,snacks,true,true
+10,75,100,35,10,30,Chipsters,snacks,true,true
 11,100,20,100,0,0,Tiramisu,desserts,false,true

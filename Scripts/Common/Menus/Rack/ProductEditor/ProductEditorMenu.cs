@@ -4,182 +4,187 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProductEditorMenu : MenuSelectable
+namespace RackScene
 {
-    //fields
-    public Button button;
-
-    public TextMeshProUGUI text;
-
-    public Product activeProduct;
-
-    //reserve productMono to set as active
-    public Product reserveProduct;
-
-    public AbstractProductHolderMono productHolderMono;
-
-    public int index;
-
-    public List<GameObject> deactivationPinList;
-
-
-    public override void GetData(object data)
+    public class ProductEditorMenu : MenuSelectable
     {
-        //try to cast the data to a Product
-        ProductMono productBody = data as ProductMono;
+        //fields
+        public Button button;
 
-        Product product = productBody.product;
+        public TextMeshProUGUI text;
 
-        //if the cast was successful
-        if (product != null)
+        //todo: get active product form ISelectable
+        public Product activeProduct;
+
+        //reserve productMono to set as active
+        public Product reserveProduct;
+
+        public AbstractProductHolderMono productHolderMono;
+
+        public int index;
+
+        public List<GameObject> deactivationPinList;
+
+
+
+        //override SetCurrentObject
+        public override void SetCurrentObject(ISelectable newProduct)
         {
-            //log
-            Debug.Log("ProductEditorMenu: GetData: Product found");
-            
-            //MenuHandler.SetNewSelectedObject(productBody as ISelectable);
+            selectedObject = newProduct;
+            //get as productMono
+            ProductMono productMono = selectedObject as ProductMono;
 
-            activeProduct = product;
+            //get product
+            activeProduct = productMono.product;
 
-            productHolderMono = productBody.holder;
+            //get product holder
+            productHolderMono = productMono.holder;
+
+            //get text holder and update text
+            TextHolder textHolder = this.textHolder;
 
             //update text
             textHolder.UpdateText();
 
         }
-    }
-
-    public void IncreaseSize(string axis)
-    {
-        //update reserves
-        activeProduct.holder.UpdateReservedProducts();
-        
-        //string to axis
-        Axis axisEnum = AxisExtensions.ToAxis(axis);
 
 
-        activeProduct.IncrementAmount(axisEnum, 1);
-
-        productHolderMono.productHolderData.RecreateHolder();
-
-
-        textHolder.UpdateText();
-
-        //get rackmono as IRender
-        IRender rackRender = productHolderMono as IRender;
-        rackRender.Render();
-
-        
-
-    }
-
-    public void DecreaseSize(string axis)
-    {
-        //update reserves
-        activeProduct.holder.UpdateReservedProducts();
-        
-        //string to axis
-        Axis axisEnum = AxisExtensions.ToAxis(axis);
-
-        activeProduct.IncrementAmount(axisEnum, -1);
-
-        productHolderMono.productHolderData.RecreateHolder();
-
-
-        textHolder.UpdateText();
-
-        //get rackmono as IRender
-        IRender rackRender = productHolderMono as IRender;
-        rackRender.Render();
-    }
-
-    //rotate active productMono XY by 90 degrees
-    public void RotateActiveProductXY()
-    {
-
-        //update reserves
-        activeProduct.holder.UpdateReservedProducts();
-
-
-        activeProduct.rotation.RotateXY(activeProduct);
-
-        productHolderMono.productHolderData.RecreateHolder();
-
-
-        textHolder.UpdateText();
-
-        //get rackmono as IRender
-        IRender rackRender = productHolderMono as IRender;
-        rackRender.Render();
-    }
-
-    //rotate active productMono YZ by 90 degrees
-    public void RotateActiveProductYZ()
-    {
-        //update reserves
-        activeProduct.holder.UpdateReservedProducts();
-
-
-        activeProduct.rotation.RotateYZ(activeProduct);
-
-        productHolderMono.productHolderData.RecreateHolder();
-
-
-        textHolder.UpdateText();
-
-        //get rackmono as IRender
-        IRender rackRender = productHolderMono as IRender;
-        rackRender.Render();
-    }
-
-    //delete active product
-    public void DeleteActiveProduct()
-    {
-        //remove from holder
-        productHolderMono.productHolderData.RemoveProduct(activeProduct);
-
-        //render holder
-        productHolderMono.RenderDefault();
-
-        //default menu
-        MenuHandler.menuController.SetDefaultMenu();
-    }
-
-    //set reserve productMono as active
-    public void SetReserveProductAsActive()
-    {
-        //set active productMono
-        activeProduct = reserveProduct;
-
-        //update text
-        textHolder.UpdateText();
-
-        //debug log
-        Debug.Log("ProductEditorMenu: SetReserveProductAsActive: Active productMono set");
-    }
-
-    //check if deactivate
-    public void DeactivationCheck()
-    {
-        //check if current holder is pin
-        if (productHolderMono.holderType == HolderType.Pin)
+        public void IncreaseSize(string axis)
         {
-            //for each gameobject in deactivationPinList
-            foreach (GameObject go in deactivationPinList)
+            //update reserves
+            activeProduct.holder.UpdateReservedProducts();
+
+            //string to axis
+            Axis axisEnum = AxisExtensions.ToAxis(axis);
+
+
+            activeProduct.IncrementAmount(axisEnum, 1);
+
+            productHolderMono.productHolderData.RecreateHolder();
+
+
+            textHolder.UpdateText();
+
+            //get rackmono as IRender
+            IRender rackRender = productHolderMono as IRender;
+            rackRender.Render();
+
+
+
+        }
+
+        public void DecreaseSize(string axis)
+        {
+            //update reserves
+            activeProduct.holder.UpdateReservedProducts();
+
+            //string to axis
+            Axis axisEnum = AxisExtensions.ToAxis(axis);
+
+            activeProduct.IncrementAmount(axisEnum, -1);
+
+            productHolderMono.productHolderData.RecreateHolder();
+
+
+            textHolder.UpdateText();
+
+            //get rackmono as IRender
+            IRender rackRender = productHolderMono as IRender;
+            rackRender.Render();
+        }
+
+        //rotate active productMono XY by 90 degrees
+        public void RotateActiveProductXY()
+        {
+
+            //update reserves
+            activeProduct.holder.UpdateReservedProducts();
+
+
+            activeProduct.rotation.RotateXY(activeProduct);
+
+            productHolderMono.productHolderData.RecreateHolder();
+
+
+            textHolder.UpdateText();
+
+            //get rackmono as IRender
+            IRender rackRender = productHolderMono as IRender;
+            rackRender.Render();
+        }
+
+        //rotate active productMono YZ by 90 degrees
+        public void RotateActiveProductYZ()
+        {
+            //update reserves
+            activeProduct.holder.UpdateReservedProducts();
+
+
+            activeProduct.rotation.RotateYZ(activeProduct);
+
+            productHolderMono.productHolderData.RecreateHolder();
+
+
+            textHolder.UpdateText();
+
+            //get rackmono as IRender
+            IRender rackRender = productHolderMono as IRender;
+            rackRender.Render();
+        }
+
+        //delete active product
+        public void DeleteActiveProduct()
+        {
+            //remove from holder
+            productHolderMono.productHolderData.RemoveProduct(activeProduct);
+
+            //render holder
+            productHolderMono.RenderDefault();
+
+
+            //default menu
+            MenuManager.instance.SetDefaultMenu();
+        }
+
+        //set reserve productMono as active
+        public void SetReserveProductAsActive()
+        {
+            //set active productMono
+            activeProduct = reserveProduct;
+
+            //update text
+            textHolder.UpdateText();
+
+            //debug log
+            Debug.Log("ProductEditorMenu: SetReserveProductAsActive: Active productMono set");
+        }
+
+        //check if deactivate
+        public void DeactivationCheck()
+        {
+            //check if current holder is pin
+            if (productHolderMono.holderType == HolderType.Pin)
             {
-                //deactivate
-                go.SetActive(false);
+                //for each gameobject in deactivationPinList
+                foreach (GameObject go in deactivationPinList)
+                {
+                    //deactivate
+                    go.SetActive(false);
+                }
+            }
+            else
+            {
+                //for each gameobject in deactivationPinList
+                foreach (GameObject go in deactivationPinList)
+                {
+                    //activate
+                    go.SetActive(true);
+                }
             }
         }
-        else
-        {
-            //for each gameobject in deactivationPinList
-            foreach (GameObject go in deactivationPinList)
-            {
-                //activate
-                go.SetActive(true);
-            }
-        }
-    }
 
+
+    }
 
 }
+

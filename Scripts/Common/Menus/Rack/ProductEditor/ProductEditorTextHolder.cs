@@ -3,29 +3,34 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ProductEditorTextHolder : TextHolder
+namespace RackScene
 {
-    //menu reference
-    public ProductEditorMenu menu;
-
-    //TODO: make logic index-free
-    //override
-    public override void UpdateText()
+    public class ProductEditorTextHolder : TextHolder
     {
-        //get active productMono
-        Product product = menu.activeProduct;
+        //menu reference
+        public ProductEditorMenu menu;
 
-        int amount_width = product.amount[AxisExtensions.RotationWise(product, Axis.X)];
+        //TODO: make logic index-free
+        //override
+        public override void UpdateText()
+        {
+            //get active productMono
+            Product product = menu.activeProduct;
 
-        int amount_height = product.amount[AxisExtensions.RotationWise(product, Axis.Y)];
+            int amount_width = product.amount[AxisExtensions.RotationWise(product, Axis.X)];
 
-        int amount_depth = product.amount[AxisExtensions.RotationWise(product, Axis.Z)];
+            int amount_height = product.amount[AxisExtensions.RotationWise(product, Axis.Y)];
 
-        //if productMono is not null
-        texts[0].text = amount_width.ToString();
+            int amount_depth = product.amount[AxisExtensions.RotationWise(product, Axis.Z)];
 
-        texts[1].text = amount_height.ToString();
+            //if productMono is not null
+            texts[0].text = amount_width.ToString();
 
-        texts[2].text = amount_depth.ToString();
+            texts[1].text = amount_height.ToString();
+
+            texts[2].text = amount_depth.ToString();
+        }
     }
 }
+
+

@@ -4,23 +4,25 @@ using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class PinsMono : AbstractProductHolderMono
+namespace RackScene
 {
-    public Pin pinData;
-
-    //holder type
-    public override HolderType holderType => HolderType.Pin;
-
-    public override ProductHolder productHolderData { get => pinData; set => pinData = value as Pin; }
-    
-
-    public override void RenderDefault()
+    public class PinsMono : AbstractProductHolderMono
     {
-        //clear
-        Clear();
-        if(!pinData.IsEmpty()) 
+        public Pin pinData;
+
+        //holder type
+        public override HolderType holderType => HolderType.Pin;
+
+        public override ProductHolder productHolderData { get => pinData; set => pinData = value as Pin; }
+
+
+        public override void RenderDefault()
         {
-            if (!pinData.product.isGhost)
+            //clear
+            Clear();
+            if (!pinData.IsEmpty())
+            {
+                if (!pinData.product.isGhost)
                 {
                     //create productMono object
                     GameObject productObject = Instantiate(productPrefab);
@@ -50,62 +52,64 @@ public class PinsMono : AbstractProductHolderMono
                     IRender render = productMono as IRender;
                     render.RenderDefault();
                 }
-            else //same for ghost
-            {
-                GameObject ghostObject = Instantiate(ghostPrefab);
-                ghostObject.transform.SetParent(transform, false);
+                else //same for ghost
+                {
+                    GameObject ghostObject = Instantiate(ghostPrefab);
+                    ghostObject.transform.SetParent(transform, false);
 
-                ghostObject.transform.localPosition = new Vector3(-pinData.product.productData.pinpointX, -pinData.product.productData.pinpointY, 0);
+                    ghostObject.transform.localPosition = new Vector3(-pinData.product.productData.pinpointX, -pinData.product.productData.pinpointY, 0);
 
-                ghostObject.GetComponent<RectTransform>().sizeDelta = new Vector2(pinData.product.width, pinData.product.height);
+                    ghostObject.GetComponent<RectTransform>().sizeDelta = new Vector2(pinData.product.width, pinData.product.height);
 
-                ProductMono ghostMono = ghostObject.GetComponent<ProductMono>();
-                ghostMono.product = pinData.product;
-                ghostMono.holder = this;
+                    ProductMono ghostMono = ghostObject.GetComponent<ProductMono>();
+                    ghostMono.product = pinData.product;
+                    ghostMono.holder = this;
+                }
+
             }
-
         }
-    }
 
-    public override void Clear()
-    {
-        foreach (Transform child in transform)
+        public override void Clear()
         {
-            ProductMono mono = child.GetComponent<ProductMono>();
-            //check if child is mono
-            if (mono != null)
+            foreach (Transform child in transform)
             {
-                //destroy child if not dragging
-                if (mono.isDragging == false)
+                ProductMono mono = child.GetComponent<ProductMono>();
+                //check if child is mono
+                if (mono != null)
+                {
+                    //destroy child if not dragging
+                    if (mono.isDragging == false)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                }
+                else
                 {
                     Destroy(child.gameObject);
                 }
             }
-            else
-            {
-                Destroy(child.gameObject);
-            }
         }
-    }
 
-    public override void SetAsMain()
-    {
-        transform.SetAsLastSibling();
-    }
+        public override void SetAsMain()
+        {
+            transform.SetAsLastSibling();
+        }
 
-    //image
-    public Image image;
+        //image
+        public Image image;
 
-    //prefabs
-    public GameObject productPrefab;
+        //prefabs
+        public GameObject productPrefab;
 
-    public GameObject ghostPrefab;
+        public GameObject ghostPrefab;
 
-    //start
-    void Start()
-    {
-        //pin data creation
-        pinData = new Pin(3000);
+        //start
+        void Start()
+        {
+            //pin data creation
+            pinData = new Pin(110);
+        }
+
     }
 
 }

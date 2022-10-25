@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuScript : MonoBehaviour
+public abstract class MenuScript : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
 
@@ -10,9 +10,6 @@ public class MenuScript : MonoBehaviour
 
     public TextHolder textHolder;
 
-    public virtual void GetData(object data)
-    {
-        //override
-    }
+    public bool IsSelectable;
 }
 
